@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber-Saleh Scientific Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-outer: #090d12;
+            --bg-body: #10161e;
+            --bg-panel: #161f2b;
+            --screen-bg: #dce8df;
+            --screen-inner: #cfe0d4;
+            --screen-ink: #132218;
+            --screen-muted: #4b6352;
+            --accent: #d4af37;
+            --accent-soft: rgba(212, 175, 55, 0.16);
+            --accent-text: #f7df8b;
+            --key-num: #1e2938;
+            --key-num-hover: #27364a;
+            --key-fn: #17202c;
+            --key-op: #233347;
+            --key-shift: #eab308;
+            --key-alpha: #8b5cf6;
+            --key-del: #e05a2b;
+            --key-ac: #c93b2b;
+            --key-eq: #0f766e;
+            --ink-main: #f1f5f9;
+            --ink-sub: #94a3b8;
+            --border-line: rgba(255, 255, 255, 0.08);
+            --shadow-device: 0 24px 60px rgba(0, 0, 0, 0.65);
+        }
+        body.theme-emerald {
+            --bg-outer: #061410; --bg-body: #0b221b; --bg-panel: #103026;
+            --screen-bg: #e7f3ec; --screen-ink: #0c291e; --screen-muted: #45695a;
+            --accent: #e5b84b; --accent-soft: rgba(229, 184, 75, 0.18); --accent-text: #fae098;
+            --key-num: #163e32; --key-num-hover: #1d5041; --key-fn: #12342a; --key-op: #1a493b; --key-eq: #b8891f;
+        }
+        body.theme-obsidian {
+            --bg-outer: #050507; --bg-body: #0c0d10; --bg-panel: #14161b;
+            --screen-bg: #eef2f7; --screen-ink: #0f172a; --screen-muted: #475569;
+            --accent: #38bdf8; --accent-soft: rgba(56, 189, 248, 0.16); --accent-text: #7dd3fc;
+            --key-num: #1c1f26; --key-num-hover: #262a34; --key-fn: #171a20; --key-op: #1e293b; --key-eq: #0284c7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+        body {
+            background: radial-gradient(circle at top, #1a2536 0%, var(--bg-outer) 70%);
+            color: var(--ink-main); font-family: 'Cairo', sans-serif; min-height: 100vh;
+            display: flex; justify-content: center; align-items: flex-start; padding: 12px 10px 28px;
+        }
+        .calc-shell {
+            width: 100%; max-width: 440px; background: var(--bg-body); border: 1.5px solid var(--border-line);
+            border-radius: 28px; padding: 14px 13px 18px; box-shadow: var(--shadow-device);
+        }
+        .brand-bar { display: flex; align-items: center; justify-content: space-between; padding: 2px 6px 10px; gap: 8px; }
+        .brand-mark { display: flex; align-items: center; gap: 8px; }
+        .brand-badge {
+            background: linear-gradient(135deg, var(--accent), #9c7412); color: #090d12;
+            font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 0.72rem; padding: 3px 8px; border-radius: 8px;
+        }
+        .brand-name { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 800; color: var(--accent-text); }
+        .brand-sub { font-size: 0.72rem; color: var(--ink-sub); font-weight: 700; }
+        .top-mini-actions { display: flex; gap: 6px; }
+        .mini-pill {
+            background: var(--bg-panel); border: 1px solid var(--border-line); color: var(--ink-main);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 4px 9px; border-radius: 9px; cursor: pointer;
+        }
+        .display-frame {
+            background: var(--screen-bg); color: var(--screen-ink); border-radius: 16px; padding: 10px 12px;
+            border: 2px solid rgba(0, 0, 0, 0.25); box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.14);
+            margin-bottom: 10px; min-height: 118px; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .status-strip {
+            display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 800; color: var(--screen-muted);
+            border-bottom: 1px dashed rgba(19, 34, 24, 0.18); padding-bottom: 5px; margin-bottom: 6px; gap: 6px; flex-wrap: wrap;
+        }
+        .status-tags { display: flex; gap: 7px; align-items: center; }
+        .tag-shift { color: #b45309; }
+        .tag-alpha { color: #6d28d9; }
+        .expr-line {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.98rem; font-weight: 700; color: var(--screen-muted);
+            text-align: left; direction: ltr; overflow-x: auto; white-space: nowrap; scrollbar-width: none; min-height: 24px;
+        }
+        .expr-line::-webkit-scrollbar { display: none; }
+        .result-line {
+            font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; font-weight: 800; color: var(--screen-ink);
+            text-align: left; direction: ltr; overflow-x: auto; white-space: nowrap; scrollbar-width: none; line-height: 1.25; margin-top: 4px;
+        }
+        .result-line::-webkit-scrollbar { display: none; }
+        .utility-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+        .util-btn {
+            background: var(--bg-panel); border: 1px solid var(--border-line); color: var(--ink-main); border-radius: 11px;
+            padding: 7px 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; cursor: pointer; text-align: center;
+        }
+        .util-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+        .keypad-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+        .key-cell { display: flex; flex-direction: column; align-items: center; }
+        .sub-hint {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; font-weight: 700; color: var(--accent-text);
+            height: 13px; line-height: 13px; margin-bottom: 2px; white-space: nowrap;
+        }
+        .calc-key {
+            width: 100%; height: 44px; border-radius: 12px; border: 1px solid var(--border-line); background: var(--key-fn);
+            color: var(--ink-main); font-family: 'JetBrains Mono', monospace; font-size: 0.92rem; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+        }
+        .calc-key:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35); }
+        .calc-key.num { background: var(--key-num); font-size: 1.15rem; font-weight: 800; }
+        .calc-key.num:hover { background: var(--key-num-hover); }
+        .calc-key.op { background: var(--key-op); color: var(--accent-text); font-size: 1.05rem; font-weight: 800; }
+        .calc-key.shift { background: var(--key-shift); color: #111827; font-weight: 800; font-size: 0.74rem; }
+        .calc-key.alpha { background: var(--key-alpha); color: #ffffff; font-weight: 800; font-size: 0.74rem; }
+        .calc-key.del { background: var(--key-del); color: #ffffff; font-weight: 800; }
+        .calc-key.ac { background: var(--key-ac); color: #ffffff; font-weight: 800; }
+        .calc-key.eq { background: var(--key-eq); color: #ffffff; font-size: 1.2rem; font-weight: 800; }
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 200; padding: 16px;
+        }
+        .drawer-overlay.open { display: flex; }
+        .drawer-card {
+            width: 100%; max-width: 400px; max-height: 75vh; background: var(--bg-panel); border: 1.5px solid var(--accent);
+            border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden;
+        }
+        .drawer-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-line); padding-bottom: 8px; }
+        .drawer-head h3 { font-size: 0.98rem; font-weight: 800; color: var(--accent-text); }
+        .drawer-close { background: var(--key-ac); color: #fff; border: none; border-radius: 8px; padding: 4px 10px; font-weight: 700; cursor: pointer; }
+        .drawer-body { overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .history-row { background: var(--bg-body); border: 1px solid var(--border-line); border-radius: 12px; padding: 9px 12px; cursor: pointer; text-align: left; direction: ltr; }
+        .history-expr { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-sub); }
+        .history-val { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 800; color: var(--accent-text); }
+        .const-btn {
+            background: var(--bg-body); border: 1px solid var(--border-line); color: var(--ink-main); border-radius: 10px;
+            padding: 9px 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; font-weight: 700;
+        }
+        .signature-footer { margin-top: 12px; text-align: center; font-size: 0.74rem; color: var(--ink-sub); font-weight: 700; }
+        .signature-footer span { color: var(--accent-text); font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body>
+<div class="calc-shell">
+    <div class="brand-bar">
+        <div class="brand-mark">
+            <span class="brand-badge">FX-SLH</span>
+            <div>
+                <div class="brand-name">Cyber-Saleh</div>
+                <div class="brand-sub">حاسبة علمية نادرة</div>
+            </div>
+        </div>
+        <div class="top-mini-actions">
+            <button class="mini-pill" id="angle-btn" onclick="toggleAngleMode()">DEG</button>
+            <button class="mini-pill" onclick="cycleTheme()">ثيم ✨</button>
+        </div>
+    </div>
+    <div class="display-frame">
+        <div class="status-strip">
+            <div class="status-tags">
+                <span id="status-angle">DEG</span>
+                <span>•</span>
+                <span>MATH</span>
+                <span id="status-shift" class="tag-shift"></span>
+                <span id="status-alpha" class="tag-alpha"></span>
+            </div>
+            <span id="status-mem">ANS: 0</span>
+        </div>
+        <div class="expr-line" id="expr-display"></div>
+        <div class="result-line" id="result-display">0</div>
+    </div>
+    <div class="utility-bar">
+        <button class="util-btn" onclick="openDrawer('history')">السجل</button>
+        <button class="util-btn" onclick="openDrawer('consts')">ثوابت</button>
+        <button class="util-btn" onclick="toggleStandardDecimal()">S⇔D</button>
+        <button class="util-btn" onclick="insertToken('(')">(</button>
+        <button class="util-btn" onclick="insertToken(')')">)</button>
+    </div>
+    <div class="keypad-grid" id="keypad"></div>
+    <div class="signature-footer">بصمة <span>Cyber-Saleh</span> • تصميم وحوسبة هندسية</div>
+</div>
+<div class="drawer-overlay" id="drawer" onclick="closeDrawerOnBackdrop(event)">
+    <div class="drawer-card">
+        <div class="drawer-head">
+            <h3 id="drawer-title">السجل</h3>
+            <button class="drawer-close" onclick="closeDrawer()">إغلاق ✕</button>
+        </div>
+        <div class="drawer-body" id="drawer-body"></div>
+    </div>
+  </div>
+  <script>
+    const keySpecs = [
+        { shift: "OFF", alpha: "", label: "SHIFT", cls: "shift", action: "shift" },
+        { shift: "", alpha: "LOCK", label: "ALPHA", cls: "alpha", action: "alpha" },
+        { shift: "x!", alpha: "", label: "n!", cls: "", insert: "!" },
+        { shift: "1/x", alpha: "", label: "x²", cls: "", insert: "^2" },
+        { shift: "∛x", alpha: "", label: "√x", cls: "", insert: "sqrt(" },
+
+        { shift: "10^x", alpha: "e", label: "xʸ", cls: "", insert: "^" },
+        { shift: "e^x", alpha: "π", label: "log", cls: "", insert: "log10(" },
+        { shift: "sin⁻¹", alpha: "x", label: "sin", cls: "", insert: "sin(" },
+        { shift: "cos⁻¹", alpha: "y", label: "cos", cls: "", insert: "cos(" },
+        { shift: "tan⁻¹", alpha: "z", label: "tan", cls: "", insert: "tan(" },
+
+        { shift: "CONST", alpha: "", label: "7", cls: "num", insert: "7" },
+        { shift: "CONV", alpha: "", label: "8", cls: "num", insert: "8" },
+        { shift: "ABS", alpha: "", label: "9", cls: "num", insert: "9" },
+        { shift: "HIST", alpha: "", label: "DEL", cls: "del", action: "del" },
+        { shift: "CLR", alpha: "", label: "AC", cls: "ac", action: "ac" },
+
+        { shift: "π", alpha: "", label: "4", cls: "num", insert: "4" },
+        { shift: "e", alpha: "", label: "5", cls: "num", insert: "5" },
+        { shift: "%", alpha: "", label: "6", cls: "num", insert: "6" },
+        { shift: "nPr", alpha: "", label: "×", cls: "op", insert: "*" },
+        { shift: "nCr", alpha: "", label: "÷", cls: "op", insert: "/" },
+
+        { shift: "ln", alpha: "", label: "1", cls: "num", insert: "1" },
+        { shift: "exp", alpha: "", label: "2", cls: "num", insert: "2" },
+        { shift: "⌊x⌋", alpha: "", label: "3", cls: "num", insert: "3" },
+        { shift: "⌈x⌉", alpha: "", label: "+", cls: "op", insert: "+" },
+        { shift: "±", alpha: "", label: "-", cls: "op", insert: "-" },
+
+        { shift: "RND", alpha: "", label: "0", cls: "num", insert: "0" },
+        { shift: "RAN#", alpha: "", label: ".", cls: "num", insert: "." },
+        { shift: "10ˣ", alpha: "", label: "EXP", cls: "", insert: "*10^" },
+        { shift: "STO", alpha: "", label: "Ans", cls: "", action: "ans" },
+        { shift: "≈", alpha: "", label: "=", cls: "eq", action: "eq" }
+    ];
+
+    const scientificConstants = [
+        { name: "π (باي)", val: Math.PI },
+        { name: "e (العدد النيبيري)", val: Math.E },
+        { name: "φ (النسبة الذهبية)", val: 1.618033988749895 },
+        { name: "c (سرعة الضوء m/s)", val: 299792458 },
+        { name: "g (الجاذبية الأرضية m/s²)", val: 9.80665 },
+        { name: "h (ثابت بلانك J·s)", val: 6.62607015e-34 }
+    ];
+        const themes = ["", "theme-emerald", "theme-obsidian"];
+    let themeIndex = 0, angleMode = "DEG", shiftActive = false, alphaActive = false;
+    let expression = "", lastAns = 0, lastNumericResult = null, displayAsSci = false, historyList = [];
+
+    function renderKeypad() {
+        const keypad = document.getElementById("keypad");
+        keypad.innerHTML = "";
+        keySpecs.forEach((k) => {
+            const cell = document.createElement("div");
+            cell.className = "key-cell";
+            const hint = document.createElement("div");
+            hint.className = "sub-hint";
+            if (alphaActive && k.alpha) { hint.textContent = k.alpha; hint.style.color = "#c4b5fd"; }
+            else if (shiftActive && k.shift) { hint.textContent = k.shift; hint.style.color = "#fde047"; }
+            else { hint.textContent = k.shift || ""; }
+            const btn = document.createElement("button");
+            btn.className = `calc-key ${k.cls}`;
+            btn.textContent = k.label;
+            btn.onclick = () => handleKeyPress(k);
+            cell.appendChild(hint); cell.appendChild(btn); keypad.appendChild(cell);
+        });
+    }
+
+    function updateStatus() {
+        document.getElementById("angle-btn").textContent = angleMode;
+        document.getElementById("status-angle").textContent = angleMode;
+        document.getElementById("status-shift").textContent = shiftActive ? "[SHIFT]" : "";
+        document.getElementById("status-alpha").textContent = alphaActive ? "[ALPHA]" : "";
+        document.getElementById("status-mem").textContent = `ANS: ${formatNum(lastAns)}`;
+        document.getElementById("expr-display").textContent = expression;
+    }
+
+    function formatNum(num) {
+        if (typeof num !== "number" || !isFinite(num)) return "Math Error";
+        if (Math.abs(num) < 1e-13 && num !== 0) num = 0;
+        if (displayAsSci) return num.toExponential(6);
+        return String(Number(num.toPrecision(12)));
+    }
+
+    function toggleAngleMode() { angleMode = angleMode === "DEG" ? "RAD" : "DEG"; updateStatus(); }
+    function cycleTheme() { themeIndex = (themeIndex + 1) % themes.length; document.body.className = themes[themeIndex]; }
+    function toggleStandardDecimal() {
+        if (lastNumericResult === null || !isFinite(lastNumericResult)) return;
+        displayAsSci = !displayAsSci;
+        document.getElementById("result-display").textContent = formatNum(lastNumericResult);
+    }
+    function insertToken(tok) { expression += tok; updateStatus(); }
+    function factorial(n) {
+        if (n < 0 || !Number.isInteger(n) || n > 170) return NaN;
+        let res = 1; for (let i = 2; i <= n; i++) res *= i; return res;
+    }
+    function permutations(n, r) {
+        if (n < r || n < 0 || r < 0 || !Number.isInteger(n) || !Number.isInteger(r)) return NaN;
+        return factorial(n) / factorial(n - r);
+    }
+    function combinations(n, r) {
+        if (n < r || n < 0 || r < 0 || !Number.isInteger(n) || !Number.isInteger(r)) return NaN;
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+    function toRad(deg) { return angleMode === "DEG" ? (deg * Math.PI) / 180 : deg; }
+    function fromRad(rad) { return angleMode === "DEG" ? (rad * 180) / Math.PI : rad; }
+
+    function evaluateExpression(rawExpr) {
+        if (!rawExpr.trim()) return 0;
+        let jsExpr = rawExpr
+            .replace(/\^/g, "**")
+            .replace(/(\d+)!/g, (_, n) => `factorial(${n})`)
+            .replace(/\(([^()]+)\)!/g, (_, inner) => `factorial((${inner}))`)
+            .replace(/nPr\(([^,]+),([^)]+)\)/g, (_, a, b) => `permutations(${a},${b})`)
+            .replace(/nCr\(([^,]+),([^)]+)\)/g, (_, a, b) => `combinations(${a},${b})`)
+            .replace(/sqrt\(/g, "Math.sqrt(").replace(/cbrt\(/g, "Math.cbrt(").replace(/abs\(/g, "Math.abs(")
+            .replace(/floor\(/g, "Math.floor(").replace(/ceil\(/g, "Math.ceil(")
+            .replace(/log10\(/g, "Math.log10(").replace(/ln\(/g, "Math.log(")
+            .replace(/sin\(/g, "sinDegRad(").replace(/cos\(/g, "cosDegRad(").replace(/tan\(/g, "tanDegRad(")
+            .replace(/asin\(/g, "asinDegRad(").replace(/acos\(/g, "acosDegRad(").replace(/atan\(/g, "atanDegRad(")
+            .replace(/π/g, `(${Math.PI})`).replace(/\be\b/g, `(${Math.E})`).replace(/\bAns\b/g, `(${lastAns})`);
+
+        const sinDegRad = (x) => Math.sin(toRad(x));
+        const cosDegRad = (x) => Math.cos(toRad(x));
+        const tanDegRad = (x) => { const r = toRad(x); return Math.abs(Math.cos(r)) < 1e-15 ? NaN : Math.tan(r); };
+        const fn = new Function(
+            "factorial", "permutations", "combinations", "sinDegRad", "cosDegRad", "tanDegRad", "fromRad",
+            `"use strict"; const asinDegRad=(x)=>fromRad(Math.asin(x)), acosDegRad=(x)=>fromRad(Math.acos(x)), atanDegRad=(x)=>fromRad(Math.atan(x)); return (${jsExpr});`
+        );
+        return fn(factorial, permutations, combinations, sinDegRad, cosDegRad, tanDegRad, fromRad);
+    }
+
+    function handleCalculate() {
+        if (!expression.trim()) return;
+        try {
+            const val = evaluateExpression(expression);
+            const formatted = formatNum(val);
+            document.getElementById("result-display").textContent = formatted;
+            if (typeof val === "number" && isFinite(val)) {
+                lastAns = val; lastNumericResult = val; displayAsSci = false;
+                historyList.unshift({ expr: expression, res: formatted });
+                if (historyList.length > 25) historyList.pop();
+            } else { lastNumericResult = null; }
+        } catch (err) {
+            document.getElementById("result-display").textContent = "Syntax Error";
+            lastNumericResult = null;
+        }
+        updateStatus();
+    }
+
+    function handleKeyPress(k) {
+        if (k.action === "shift") { shiftActive = !shiftActive; alphaActive = false; updateStatus(); renderKeypad(); return; }
+        if (k.action === "alpha") { alphaActive = !alphaActive; shiftActive = false; updateStatus(); renderKeypad(); return; }
+        if (alphaActive && k.alpha) {
+            if (k.alpha !== "LOCK") insertToken(k.alpha);
+            alphaActive = false; updateStatus(); renderKeypad(); return;
+        }
+        if (shiftActive && k.shift) {
+            const s = k.shift; shiftActive = false; renderKeypad();
+            const map = {
+                "π": "π", "e": "e", "x!": "!", "1/x": "^(-1)", "∛x": "cbrt(",
+                "10^x": "10^(", "e^x": "e^(", "sin⁻¹": "asin(", "cos⁻¹": "acos(",
+                "tan⁻¹": "atan(", "ABS": "abs(", "⌊x⌋": "floor(", "⌈x⌉": "ceil(",
+                "ln": "ln(", "exp": "e^", "%": "/100", "RAN#": String(Math.random().toFixed(4)),
+                "±": "-", "nPr": "nPr(", "nCr": "nCr("
+            };
+            if (s === "CLR" || s === "OFF") { expression = ""; lastNumericResult = null; document.getElementById("result-display").textContent = "0"; }
+            else if (s === "HIST") openDrawer("history");
+            else if (s === "CONST") openDrawer("consts");
+            else if (s === "RND" && lastNumericResult !== null) expression = String(Math.round(lastNumericResult));
+            else if (s === "≈") { displayAsSci = true; handleCalculate(); }
+            else if (map[s]) insertToken(map[s]);
+            updateStatus(); return;
+        }
+        if (k.action === "ac") { expression = ""; lastNumericResult = null; displayAsSci = false; document.getElementById("result-display").textContent = "0"; updateStatus(); return; }
+        if (k.action === "del") { expression = expression.slice(0, -1); updateStatus(); return; }
+        if (k.action === "ans") { insertToken("Ans"); return; }
+        if (k.action === "eq") { handleCalculate(); return; }
+        if (k.insert) insertToken(k.insert);
+    }
+
+    function openDrawer(type) {
+        const drawer = document.getElementById("drawer"), title = document.getElementById("drawer-title"), body = document.getElementById("drawer-body");
+        body.innerHTML = "";
+        if (type === "history") {
+            title.textContent = "سجل العمليات — Cyber-Saleh";
+            if (!historyList.length) body.innerHTML = `<div style="text-align:center;color:var(--ink-sub);padding:20px;font-size:0.86rem;">لا توجد عمليات محفوظة بعد</div>`;
+            else historyList.forEach((item) => {
+                const row = document.createElement("div"); row.className = "history-row";
+                row.innerHTML = `<div class="history-expr">${item.expr}</div><div class="history-val">= ${item.res}</div>`;
+                row.onclick = () => { expression = item.expr; document.getElementById("result-display").textContent = item.res; updateStatus(); closeDrawer(); };
+                body.appendChild(row);
+            });
+        } else {
+            title.textContent = "الثوابت العلمية والرياضية";
+            scientificConstants.forEach((c) => {
+                const btn = document.createElement("button"); btn.className = "const-btn";
+                btn.innerHTML = `<span>${c.name}</span><span style="color:var(--accent-text);">${c.val}</span>`;
+                btn.onclick = () => { insertToken(String(c.val)); closeDrawer(); };
+                body.appendChild(btn);
+            });
+        }
+        drawer.classList.add("open");
+    }
+
+    function closeDrawer() { document.getElementById("drawer").classList.remove("open"); }
+    function closeDrawerOnBackdrop(e) { if (e.target.id === "drawer") closeDrawer(); }
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); handleCalculate(); }
+        else if (e.key === "Backspace") { expression = expression.slice(0, -1); updateStatus(); }
+        else if (/^[0-9+\-*/().^!]$/.test(e.key)) insertToken(e.key);
+    });
+
+    renderKeypad(); updateStatus();
+</script>
+</body>
+</html>
