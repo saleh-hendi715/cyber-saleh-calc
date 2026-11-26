@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - رئيسي
       - main
 
 jobs:
@@ -83,4 +82,74 @@ jobs:
             implementation 'androidx.appcompat:appcompat:1.6.1'
           }
           EOF
+                    cat << 'EOF' > android_app/app/src/main/AndroidManifest.xml
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <application
+              android:label="Cyber-Saleh Calc"
+              android:theme="@style/Theme.AppCompat.NoActionBar">
+              <activity
+                android:name=".MainActivity"
+                android:exported="true"
+                android:configChanges="orientation|screenSize|keyboardHidden">
+                <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+                  <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+              </activity>
+            </application>
+          </manifest>
+          EOF
+
+          cat << 'EOF' > android_app/app/src/main/res/layout/activity_main.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+          EOF
+
+          cat << 'EOF' > android_app/app/src/main/res/values/strings.xml
+          <resources>
+            <string name="app_name">Cyber-Saleh Calc</string>
+          </resources>
+          EOF
+
+          cat << 'EOF' > android_app/app/src/main/java/com/cybersaleh/calc/MainActivity.java
+          package com.cybersaleh.calc;
+
+          import android.os.Bundle;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import androidx.appcompat.app.AppCompatActivity;
+
+          public class MainActivity extends AppCompatActivity {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              setContentView(R.layout.activity_main);
+
+              WebView webView = findViewById(R.id.webview);
+              WebSettings settings = webView.getSettings();
+              settings.setJavaScriptEnabled(true);
+              settings.setDomStorageEnabled(true);
+              settings.setAllowFileAccess(true);
+              webView.setWebViewClient(new WebViewClient());
+              webView.loadUrl("file:///android_asset/index.html");
+            }
+          }
+          EOF
+
+      - name: Build Debug APK
+        run: |
+          cd android_app
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          gradle assembleDebug --no-daemon
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cyber-Saleh-Calculator-APK
+          path: android_app/app/build/outputs/apk/debug/app-debug.apk
           
