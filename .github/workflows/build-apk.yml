@@ -88,7 +88,7 @@ jobs:
           </resources>
           EOF
 
-          cat << 'EOF' > android_app/app/src/main/res/drawable/ic_calcsLH_icon.xml
+          cat << 'EOF' > android_app/app/src/main/res/drawable/ic_calcslh_icon.xml
           <vector xmlns:android="http://schemas.android.com/apk/res/android"
               android:width="108dp"
               android:height="108dp"
@@ -147,8 +147,8 @@ jobs:
             <uses-permission android:name="android.permission.INTERNET" />
             <application
               android:label="@string/app_name"
-              android:icon="@drawable/ic_calcsLH_icon"
-              android:roundIcon="@drawable/ic_calcsLH_icon"
+              android:icon="@drawable/ic_calcslh_icon"
+              android:roundIcon="@drawable/ic_calcslh_icon"
               android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
               <activity
                 android:name=".MainActivity"
@@ -202,7 +202,7 @@ jobs:
           cd android_app
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           gradle wrapper --gradle-version 8.7 --no-daemon
-          ./gradlew assembleDebug --stacktrace --no-daemon
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
