@@ -78,16 +78,13 @@ jobs:
               targetCompatibility JavaVersion.VERSION_17
             }
           }
-          dependencies {
-            implementation 'androidx.appcompat:appcompat:1.6.1'
-          }
           EOF
                     cat << 'EOF' > android_app/app/src/main/AndroidManifest.xml
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.INTERNET" />
             <application
               android:label="Cyber-Saleh Calc"
-              android:theme="@style/Theme.AppCompat.NoActionBar">
+              android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
               <activity
                 android:name=".MainActivity"
                 android:exported="true"
@@ -118,13 +115,13 @@ jobs:
           cat << 'EOF' > android_app/app/src/main/java/com/cybersaleh/calc/MainActivity.java
           package com.cybersaleh.calc;
 
+          import android.app.Activity;
           import android.os.Bundle;
           import android.webkit.WebSettings;
           import android.webkit.WebView;
           import android.webkit.WebViewClient;
-          import androidx.appcompat.app.AppCompatActivity;
 
-          public class MainActivity extends AppCompatActivity {
+          public class MainActivity extends Activity {
             @Override
             protected void onCreate(Bundle savedInstanceState) {
               super.onCreate(savedInstanceState);
