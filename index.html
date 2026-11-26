@@ -3,57 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CalcSLH | Advanced Scientific Calculator — Cyber-Saleh Edition</title>
+  <title>CalcSLH | Cyber-Saleh Edition</title>
   <style>
     :root {
-      --bg-outer: #090d12;
-      --bg-panel: #10161e;
-      --bg-card: #161f2b;
-      --bg-btn: #1c2736;
-      --bg-btn-top: #233042;
-      --bg-btn-shadow: #090e14;
-      --gold: #d4af37;
-      --gold-bright: #f7df8b;
-      --purple: #9333ea;
-      --purple-bright: #c084fc;
-      --teal: #0f766e;
-      --teal-bright: #2dd4bf;
-      --screen-bg: #dce8df;
-      --screen-border: #b8c9bc;
-      --screen-ink: #112217;
-      --screen-sub: #2d4a36;
-      --text-main: #f3f6fa;
-      --text-muted: #9fb0c3;
-      --danger: #dc2626;
-      --btn-scale: 1;
-      --btn-radius: 13px;
-    }
-
-    body.theme-light {
-      --bg-outer: #e5ebf2;
-      --bg-panel: #f5f7fa;
-      --bg-card: #ffffff;
-      --bg-btn: #e8eef5;
-      --bg-btn-top: #f2f6fa;
-      --bg-btn-shadow: #bcc7d4;
-      --text-main: #101827;
-      --text-muted: #4b5563;
-      --screen-bg: #e4efe7;
-      --screen-border: #9fb6a5;
-    }
-
-    body.accent-royal {
-      --gold: #38bdf8;
-      --gold-bright: #bae6fd;
-      --purple: #818cf8;
-      --purple-bright: #c7d2fe;
-    }
-
-    body.accent-emerald {
-      --gold: #34d399;
-      --gold-bright: #a7f3d0;
-      --purple: #2dd4bf;
-      --purple-bright: #99f6e4;
+      --bg-body: #111216;
+      --bg-dot: #1c1e24;
+      --screen-bg: #d7e3e0;
+      --screen-ink: #111827;
+      --key-sci: #52545c;
+      --key-sci-top: #5e6069;
+      --key-sci-bdr: #2c2e35;
+      --key-num: #2b2d34;
+      --key-num-top: #34363f;
+      --key-num-bdr: #181a1f;
+      --shift-bg: #facc15;
+      --alpha-bg: #8f82e6;
+      --orange-bg: #f59e42;
+      --sub-gold: #facc15;
+      --sub-alpha: #a5b4fc;
+      --txt-white: #ffffff;
     }
 
     * {
@@ -70,1951 +38,1033 @@
       max-height: 100dvh;
       overflow: hidden;
       overscroll-behavior: none;
+      background-color: var(--bg-body);
+      background-image: radial-gradient(var(--bg-dot) 1px, transparent 1px);
+      background-size: 6px 6px;
+      color: var(--txt-white);
+      font-family: "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #15202e 0%, var(--bg-outer) 72%);
-      color: var(--text-main);
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
       display: flex;
       justify-content: center;
       align-items: stretch;
-      padding: 6px;
-      transition: background 0.25s ease, color 0.25s ease;
     }
 
-    body.theme-light {
-      background: radial-gradient(circle at top, #ffffff 0%, var(--bg-outer) 75%);
-    }
-
-    .calc-shell {
+    .calc-app {
       width: 100%;
       max-width: 440px;
       height: 100%;
-      max-height: 100%;
-      min-width: 0;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 3px;
-      background: linear-gradient(180deg, var(--bg-panel) 0%, #0b0f15 100%);
-      border: 1.5px solid rgba(212, 175, 55, 0.55);
-      border-radius: 20px;
-      padding: 8px 9px;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+      padding: 4px 6px 6px;
+      gap: 4px;
       position: relative;
-      overflow: hidden;
-    }
-
-    body.theme-light .calc-shell {
-      background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
-      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
-    }
-
-    /* Header & Branding */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 5px;
-      margin-bottom: 3px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-    }
-
-    .brand-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-mark {
-      font-size: 1.25rem;
-      font-weight: 900;
-      letter-spacing: 0.8px;
-      background: linear-gradient(90deg, var(--gold-bright), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .edition-tag {
-      font-size: 0.68rem;
-      font-weight: 800;
-      color: var(--teal-bright);
-      background: rgba(45, 212, 191, 0.12);
-      border: 1px solid rgba(45, 212, 191, 0.35);
-      padding: 2px 7px;
-      border-radius: 999px;
-      letter-spacing: 0.4px;
-    }
-
-    .subtitle {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      letter-spacing: 0.3px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 4.5px;
-    }
-
-    .icon-btn {
-      background: var(--bg-card);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--gold-bright);
-      border-radius: 10px;
-      padding: 6px 9px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.08s ease, box-shadow 0.15s ease;
-    }
-
-    .icon-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* Status Bar */
-    .status-strip {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 10px;
-      padding: 4px 8px;
-      margin-bottom: 3px;
-      font-size: 0.72rem;
       direction: ltr;
     }
 
-    .indicators {
+    /* 1. Top Status Bar */
+    .sys-row {
       display: flex;
-      gap: 5px;
+      justify-content: space-between;
       align-items: center;
-        }
-
-    .ind {
-      padding: 2px 6px;
-      border-radius: 5px;
-      font-weight: 800;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
-      transition: all 0.15s ease;
-    }
-
-    .ind.shift-on {
-      background: var(--gold);
-      color: #090d12;
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-    }
-
-    .ind.alpha-on {
-      background: var(--purple);
-      color: #ffffff;
-      box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
-    }
-
-    .ind.mode-on {
-      background: rgba(45, 212, 191, 0.18);
-      color: var(--teal-bright);
-      border: 1px solid rgba(45, 212, 191, 0.35);
-    }
-
-    .ind.mem-on {
-      background: rgba(212, 175, 55, 0.2);
-      color: var(--gold-bright);
-    }
-
-    .active-hint {
-      color: var(--gold-bright);
+      padding: 0 4px;
+      font-size: 0.64rem;
       font-weight: 700;
-      font-size: 0.72rem;
+      color: #9ca3af;
+      letter-spacing: 0.4px;
+      flex: 0 0 auto;
     }
+    .sys-left { display: flex; gap: 7px; align-items: center; }
+    .sys-ind { opacity: 0.35; transition: opacity 0.15s; }
+    .sys-ind.on { opacity: 1; color: var(--sub-gold); }
+    .sys-ind.on-a { opacity: 1; color: var(--sub-alpha); }
+    .sys-brand { color: var(--sub-gold); font-weight: 800; font-size: 0.66rem; }
 
-    /* Natural Display Screen */
-    .screen {
-      min-width: 0;
-      max-width: 100%;
+    /* 2. Large Clean Screen */
+    .lcd-screen {
       background: var(--screen-bg);
       color: var(--screen-ink);
-      border: 2px solid var(--gold);
-      border-radius: 16px;
-      padding: 6px 10px;
-      margin-bottom: 3px;
-      direction: ltr;
-      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.18), 0 0 14px rgba(212, 175, 55, 0.12);
-    }
-
-    .screen-top-bar {
+      border-radius: 12px;
+      padding: 8px 12px;
+      flex: 0 0 21dvh;
+      min-height: 112px;
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
-      font-size: 0.72rem;
-      color: var(--screen-sub);
-      margin-bottom: 4px;
-      border-bottom: 1px dashed rgba(17, 34, 23, 0.18);
-      padding-bottom: 3px;
+      position: relative;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.18);
     }
 
-    .screen-btns {
-      display: flex;
-      gap: 4.5px;
+    .lcd-menu-dot {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: #475569;
+      font-size: 1.1rem;
+      font-weight: 900;
+          cursor: pointer;
+      padding: 2px 6px;
     }
 
-    .scr-mini-btn {
-      background: rgba(17, 34, 23, 0.1);
-      border: 1px solid rgba(17, 34, 23, 0.2);
-      color: var(--screen-ink);
-      border-radius: 6px;
-      padding: 1px 7px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .natural-expr {
-      min-height: 24px;
-      min-width: 0;
-      max-width: 100%;
-      font-size: 1.05rem;
+    .lcd-expr {
+      font-size: 1.3rem;
       font-weight: 600;
-      color: #16301f;
+      color: #111827;
       overflow-x: auto;
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 2px;
-      padding: 2px 0;
+      min-height: 44px;
+      padding-right: 18px;
     }
 
-    .math-frac {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      vertical-align: middle;
-      margin: 0 3px;
-      font-size: 0.85em;
+    .lcd-ans {
+      font-size: clamp(1.7rem, 6.5vw, 2.2rem);
+      font-weight: 700;
+      color: #0f172a;
+      text-align: right;
+      overflow-x: auto;
+      white-space: nowrap;
+      line-height: 1.1;
     }
 
-    .math-frac > span:first-child {
-      border-bottom: 1.5px solid var(--screen-ink);
-      padding: 0 3px;
-    }
-
-    .math-frac > span:last-child {
-      padding: 0 3px;
-    }
-
-
-
-    .cursor-caret {
+    /* Interactive Cursor & Natural Math */
+    .caret {
       display: inline-block;
       width: 2px;
-      height: 1.2em;
+      height: 1.25em;
       background: #0f766e;
-      vertical-align: middle;
-      animation: blinkCaret 0.9s steps(2, start) infinite;
+      animation: blink 0.85s steps(2, start) infinite;
       margin: 0 1px;
     }
-    @keyframes blinkCaret {
-      to { visibility: hidden; }
-    }
-    .expr-char {
-      cursor: pointer;
-      padding: 2px 0.5px;
-      border-radius: 3px;
-    }
-    .expr-char:active {
-      background: rgba(15, 118, 110, 0.22);
-    }
-    .math-slot {
+    @keyframes blink { to { visibility: hidden; } }
+    .ch-span { cursor: pointer; padding: 1px 0.5px; }
+    .slot {
       cursor: pointer;
       padding: 0 3px;
       border-radius: 4px;
-      border: 1px dashed rgba(17, 34, 23, 0.28);
+      border: 1px dashed rgba(15, 23, 42, 0.35);
       min-width: 14px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
     }
-    .math-slot.active-slot {
-      background: rgba(212, 175, 55, 0.28);
-      border-color: #0f766e;
-    }
-    .dpad-bar {
+    .slot.act { background: rgba(250, 204, 21, 0.35); border-color: #0f766e; }
+
+    .m-sigma { display: inline-flex; align-items: center; gap: 4px; margin: 0 4px; }
+    .s-col { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; }
+    .s-top { font-size: 0.65em; font-weight: 800; }
+    .s-sym { font-size: 1.45em; font-weight: 800; }
+    .s-bot { font-size: 0.62em; font-weight: 800; }
+    .s-box { border-left: 1.6px solid #111827; border-right: 1.6px solid #111827; border-radius: 3px; padding: 1px 5px; font-size: 0.92em; }
+
+    .m-logb { display: inline-flex; align-items: baseline; margin: 0 2px; }
+    .lb-sub { font-size: 0.66em; font-weight: 800; transform: translateY(3px); margin-right: 1px; }
+
+    /* 3. Circular Toolbar Row */
+    .icon-toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 4.5px;
-      margin-bottom: 3px;
-      direction: ltr;
+      padding: 2px 2px;
+      flex: 0 0 auto;
     }
-    .dpad-group {
-      display: flex;
-      gap: 5px;
-    }
-    .dpad-btn {
-      background: linear-gradient(180deg, var(--bg-btn-top) 0%, var(--bg-btn) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--gold-bright);
-      border-radius: 9px;
-      padding: 4px 10px;
-      font-size: 0.85rem;
-      font-weight: 900;
-      cursor: pointer;
-      touch-action: manipulation;
-      box-shadow: 0 3px 0 var(--bg-btn-shadow);
-    }
-    .dpad-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 var(--bg-btn-shadow);
-    }
-
-    .math-sigma {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin: 0 4px;
-      vertical-align: middle;
-    }
-    .sigma-stack {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1.05;
-    }
-    .sigma-top {
-      font-size: 0.68em;
-      font-weight: 800;
-    }
-    .sigma-sym {
-      font-size: 1.35em;
-      font-weight: 900;
-    }
-    .sigma-bot {
-      font-size: 0.65em;
-          font-weight: 800;
-    }
-    .sigma-body {
-      border-left: 1.5px solid var(--screen-ink);
-      border-right: 1.5px solid var(--screen-ink);
-      border-radius: 3px;
-      padding: 1px 5px;
-      font-size: 0.92em;
-    }
-    .math-logb {
-      display: inline-flex;
-      align-items: baseline;
-      margin: 0 2px;
-    }
-    .logb-head {
-      font-weight: 800;
-    }
-    .logb-sub {
-      font-size: 0.68em;
-      font-weight: 800;
-      transform: translateY(3px);
-      margin-right: 1px;
-    }
-
-    .math-sqrt {
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .math-sqrt-body {
-      border-top: 1.5px solid var(--screen-ink);
-      padding: 0 2px;
-    }
-
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: 4px;
-    }
-
-    .steps-badge {
-      font-size: 0.7rem;
-      color: #0f5132;
-      background: rgba(15, 81, 50, 0.12);
-      padding: 2px 7px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .result-val {
-      min-width: 0;
-      font-size: clamp(1.25rem, 5vw, 1.65rem);
-      font-weight: 900;
-      line-height: 1.15;
-      overflow-x: auto;
-      white-space: nowrap;
-      text-align: right;
-      flex: 1;
-    }
-
-    .steps-drawer {
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(17, 34, 23, 0.2);
+    .t-circle {
+      height: 30px;
+      min-width: 34px;
+      padding: 0 9px;
+      border-radius: 15px;
+      background: #23252c;
+      border: 1px solid #3c3f4a;
+      color: #f8fafc;
       font-size: 0.78rem;
-      color: #1b3b26;
-      display: none;
-      line-height: 1.45;
-    }
-
-    .steps-drawer.open {
-      display: block;
-    }
-
-    /* Tools Navigation Ribbon */
-    .tools-ribbon {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 5px;
-      margin-bottom: 3px;
-      direction: ltr;
-    }
-
-    .tool-tab {
-      background: var(--bg-card);
-      border: 1px solid rgba(45, 212, 191, 0.25);
-      color: var(--text-main);
-      border-radius: 9px;
-      padding: 4px 2px;
-      font-size: 0.67rem;
       font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      text-align: center;
-      transition: all 0.15s ease;
+    }
+    .t-circle.pro {
+      background: #a78bfa;
+      border-color: #c4b5fd;
+      color: #111827;
+      padding: 0 12px;
+      font-weight: 900;
+    }
+    .t-circle.rad-btn {
+      background: #2b2d34;
+      padding: 0 11px;
+      font-size: 0.72rem;
     }
 
-    .tool-tab:hover, .tool-tab.active {
-      border-color: var(--teal-bright);
-      background: rgba(45, 212, 191, 0.16);
-      color: var(--teal-bright);
+    /* 4. Keypad Container */
+    .keypad-wrap {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 3px;
     }
 
-    /* 3D Keypad */
-    .keypad-section {
-      direction: ltr;
+    /* Top Cluster with Oval D-Pad */
+    .cluster-top {
+      display: grid;
+          grid-template-columns: 1fr 1.15fr 1fr;
+      gap: 5px;
+      align-items: stretch;
     }
 
-    .sci-grid {
+    .mini-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .oval-dpad {
+      background: linear-gradient(180deg, #5d606a 0%, #484a52 100%);
+      border: 1.5px solid #2b2d33;
+      border-radius: 26px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      align-items: center;
+      justify-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 3px 0 #1b1c22;
+    }
+    .oval-dpad::before, .oval-dpad::after {
+      content: "";
+      position: absolute;
+      width: 140%;
+      height: 1.5px;
+      background: rgba(17, 18, 22, 0.65);
+      pointer-events: none;
+    }
+    .oval-dpad::before { transform: rotate(32deg); }
+    .oval-dpad::after { transform: rotate(-32deg); }
+
+    .d-btn {
+      background: transparent;
+      border: none;
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      font-weight: 900;
+      z-index: 2;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+    .d-btn:active { color: var(--sub-gold); }
+    .d-u { grid-column: 2; grid-row: 1; }
+    .d-l { grid-column: 1; grid-row: 2; }
+    .d-r { grid-column: 3; grid-row: 2; }
+    .d-d { grid-column: 2; grid-row: 3; }
+    .d-c {
+      grid-column: 2;
+      grid-row: 2;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #14151a;
+      border: none;
+      z-index: 3;
+      cursor: pointer;
+    }
+
+    /* Scientific 6-col Grid */
+    .grid-6 {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 4.5px;
-      margin-bottom: 3px;
+      gap: 4px;
     }
 
-    .main-grid {
+    /* Numeric 5-col Grid */
+    .grid-5 {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 5px;
     }
 
-    body.layout-compact .sci-grid {
-      gap: 4px;
-      margin-bottom: 3px;
-    }
-
-    body.layout-compact .main-grid {
-      gap: 5px;
-    }
-
-    .key-wrap {
+    .cell {
       display: flex;
       flex-direction: column;
-      touch-action: manipulation;
       min-width: 0;
-      max-width: 100%;
     }
 
-    .sub-labels {
+    .subs {
       display: flex;
       justify-content: space-between;
-      min-width: 0;
-      overflow: hidden;
-      font-size: 0.6rem;
+      align-items: center;
+      font-size: 0.56rem;
       font-weight: 800;
-      padding: 0 3px 1px;
+      line-height: 1.1;
+      padding: 0 2px 1px;
       min-height: 11px;
-    }
-
-    .lbl-shift {
-      color: var(--gold-bright);
-      opacity: 0.85;
-      transition: transform 0.12s ease, text-shadow 0.12s ease;
-    }
-
-    .lbl-alpha {
-      color: var(--purple-bright);
-      opacity: 0.85;
-      transition: transform 0.12s ease, text-shadow 0.12s ease;
-    }
-
-    body.mode-shift .lbl-shift {
-      opacity: 1;
-      transform: scale(1.08);
-      text-shadow: 0 0 6px rgba(247, 223, 139, 0.8);
-    }
-
-    body.mode-alpha .lbl-alpha {
-      opacity: 1;
-      transform: scale(1.08);
-      text-shadow: 0 0 6px rgba(192, 132, 252, 0.8);
-    }
-
-    button.k3d {
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
-      touch-action: manipulation;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--btn-radius);
-      background: linear-gradient(180deg, var(--bg-btn-top) 0%, var(--bg-btn) 100%);
-      color: var(--text-main);
-      font-weight: 800;
-      font-size: clamp(0.78rem, 3.2vw, 1.05rem);
-      padding: calc(4.5px * var(--btn-scale)) 1px;
+    }
+    .sg { color: var(--sub-gold); }
+    .sa { color: var(--sub-alpha); }
+
+    /* Raised Crisp Buttons */
+    button.k {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--key-sci-bdr);
+      border-radius: 9px;
+      background: linear-gradient(180deg, var(--key-sci-top) 0%, var(--key-sci) 100%);
+      color: var(--txt-white);
+      font-weight: 600;
+      font-size: clamp(0.75rem, 2.8vw, 0.96rem);
+            padding: 6px 1px;
       cursor: pointer;
-      box-shadow: 0 4px 0 var(--bg-btn-shadow), 0 6px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: transform 0.06s ease, box-shadow 0.06s ease, border-color 0.15s ease;
+      touch-action: manipulation;
+      box-shadow: 0 2.5px 0 #1b1d22;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    button.k:active {
+      transform: translateY(2px);
+      box-shadow: 0 0.5px 0 #1b1d22;
     }
 
-    button.k3d.sci {
-      font-size: clamp(0.58rem, 2.2vw, 0.82rem);
-      padding: calc(3.5px * var(--btn-scale)) 1px;
-      background: linear-gradient(180deg, #1b2636 0%, #131b26 100%);
-      border-color: rgba(212, 175, 55, 0.2);
+    button.k.k-shift {
+      background: var(--shift-bg);
+      color: #111827;
+      font-weight: 800;
+      border-color: #ca8a04;
     }
-
-    button.k3d:active {
-          transform: translateY(3px);
-      box-shadow: 0 1px 0 var(--bg-btn-shadow), 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    button.k3d.shift-key {
-      background: linear-gradient(180deg, #e5c158 0%, #b89024 100%);
-      color: #090d12;
-      border-color: #f7df8b;
-      box-shadow: 0 4px 0 #6e530e, 0 0 12px rgba(212, 175, 55, 0.35);
-    }
-
-    button.k3d.alpha-key {
-      background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
+    button.k.k-alpha {
+      background: var(--alpha-bg);
       color: #ffffff;
-      border-color: #d8b4fe;
-      box-shadow: 0 4px 0 #4c1d95, 0 0 12px rgba(168, 85, 247, 0.35);
+      font-weight: 800;
+      border-color: #6d28d9;
     }
 
-    button.k3d.op-key {
-      color: var(--gold-bright);
-      border-color: rgba(212, 175, 55, 0.3);
+    button.k.k-num {
+      background: linear-gradient(180deg, var(--key-num-top) 0%, var(--key-num) 100%);
+      border-color: var(--key-num-bdr);
+      border-radius: 11px;
+      font-size: clamp(1.15rem, 4.8vw, 1.55rem);
+      font-weight: 500;
+      padding: 7px 2px;
+      box-shadow: 0 3px 0 #101116;
     }
 
-    button.k3d.del-key {
-      background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
-      color: #fecaca;
-      border-color: rgba(248, 113, 113, 0.4);
-      box-shadow: 0 4px 0 #450a0a;
+    button.k.k-op {
+      background: linear-gradient(180deg, var(--key-num-top) 0%, var(--key-num) 100%);
+      border-color: var(--key-num-bdr);
+      border-radius: 11px;
+      font-size: clamp(1.25rem, 5vw, 1.6rem);
+      font-weight: 500;
+      padding: 7px 2px;
+      box-shadow: 0 3px 0 #101116;
     }
 
-    button.k3d.eq-key {
-      background: linear-gradient(180deg, #2dd4bf 0%, #0f766e 100%);
-      color: #06211e;
-      border-color: #99f6e4;
-      box-shadow: 0 4px 0 #064e3b, 0 0 14px rgba(45, 212, 191, 0.4);
+    button.k.k-org {
+      background: var(--orange-bg);
+      color: #111827;
+      border-color: #c2410c;
+      border-radius: 11px;
+      font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+      font-weight: 800;
+      padding: 7px 2px;
+      box-shadow: 0 3px 0 #7c2d12;
     }
 
-    /* Overlay Pages (Tools & Settings) */
-    .modal-page {
+    button.k.k-word {
+      background: linear-gradient(180deg, var(--key-num-top) 0%, var(--key-num) 100%);
+      border-color: var(--key-num-bdr);
+      border-radius: 11px;
+      font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+      font-weight: 500;
+      padding: 7px 2px;
+      box-shadow: 0 3px 0 #101116;
+    }
+
+    /* Overlay Modal for Tools & History */
+    .overlay {
       position: absolute;
       inset: 0;
-      background: var(--bg-panel);
-      z-index: 30;
-      padding: 16px;
-      display: flex;
+      background: #14161c;
+      z-index: 50;
+      padding: 14px;
+      display: none;
       flex-direction: column;
-      transform: translateY(100%);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
       overflow-y: auto;
+      direction: rtl;
     }
-
-    .modal-page.open {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-head {
+    .overlay.open { display: flex; }
+    .ov-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      border-bottom: 1px solid #2e323d;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
-
-    .modal-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--gold-bright);
+    .ov-title { color: var(--sub-gold); font-weight: 800; font-size: 1rem; }
+    .ov-x {
+      background: #dc2626; color: #fff; border: none; border-radius: 8px;
+      padding: 5px 11px; font-weight: 800; cursor: pointer;
     }
-
-    .close-btn {
-      background: rgba(220, 38, 38, 0.2);
-      border: 1px solid rgba(248, 113, 113, 0.4);
-      color: #fca5a5;
-      border-radius: 9px;
-      padding: 5px 11px;
-      font-weight: 800;
-      cursor: pointer;
+    .box {
+      background: #1e212a; border: 1px solid #2e323d; border-radius: 10px;
+      padding: 10px; margin-bottom: 8px;
     }
-
-    .card-box {
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 3px;
+    .box h4 { margin: 0 0 6px; color: #93c5fd; font-size: 0.88rem; }
+    .in-row { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+    input.inp, select.sel {
+      flex: 1; min-width: 65px; background: #111318; color: #fff;
+      border: 1px solid #3f4454; border-radius: 8px; padding: 6px 8px; direction: ltr;
     }
-
-    .card-box h4 {
-      margin: 0 0 8px;
-      color: var(--teal-bright);
-      font-size: 0.9rem;
+    button.act {
+      background: var(--sub-gold); color: #111827; border: none;
+      border-radius: 8px; padding: 6px 12px; font-weight: 800; cursor: pointer;
     }
-
-    .field-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 3px;
-      align-items: center;
-      flex-wrap: wrap;
+    .out {
+            background: #0d0f13; border: 1px solid #334155; color: var(--sub-gold);
+      border-radius: 8px; padding: 7px 9px; font-size: 0.84rem; direction: ltr; white-space: pre-wrap;
     }
-
-    input.sci-input, select.sci-select {
-      background: var(--bg-btn);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--text-main);
-      border-radius: 9px;
-      padding: 7px 10px;
-      font-size: 0.88rem;
-      flex: 1;
-      min-width: 70px;
-      direction: ltr;
-    }
-
-    button.action-btn {
-      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
-      color: #090d12;
-      border: none;
-      border-radius: 9px;
-      padding: 8px 13px;
-      font-weight: 800;
-      font-size: 0.84rem;
-      cursor: pointer;
-    }
-
-    .out-box {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(45, 212, 191, 0.25);
-      border-radius: 9px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      direction: ltr;
-      color: var(--gold-bright);
-      white-space: pre-wrap;
-      margin-top: 6px;
-    }
-
-    .matrix-grid-inputs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 4.5px;
-      direction: ltr;
-      margin-bottom: 3px;
-    }
-
-    .hist-entry {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 7px 0;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-      direction: ltr;
-      font-size: 0.84rem;
-      cursor: pointer;
-    }
-
-    .footer-sign {
-      margin-top: 4px;
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
-    }
-
-    .footer-sign span {
-      color: var(--gold-bright);
-      font-weight: 800;
+    .h-item {
+      display: flex; justify-content: space-between; padding: 7px 0;
+      border-bottom: 1px dashed #334155; direction: ltr; cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="calc-shell">
-    <!-- Top Branding -->
-    <div class="header">
-      <div class="brand-wrap">
-        <div class="brand-top">
-          <span class="logo-mark">CalcSLH</span>
-          <span class="edition-tag">Cyber-Saleh Edition</span>
-        </div>
-        <span class="subtitle">Advanced Scientific Calculator</span>
+  <div class="calc-app">
+    <!-- Top System Row -->
+    <div class="sys-row">
+      <div class="sys-left">
+        <span class="sys-ind" id="iShift">S</span>
+        <span class="sys-ind" id="iAlpha">A</span>
+        <span class="sys-ind" id="iMem">M</span>
+        <span>NORM-11</span>
+        <span>MATH</span>
+        <span id="iDeg">DEG</span>
       </div>
-      <div class="header-actions">
-        <button class="icon-btn" onclick="openTool('history')">History</button>
-        <button class="icon-btn" onclick="openPage('settingsPage')">⚙ إعدادات</button>
+      <span class="sys-brand">CalcSLH • Cyber-Saleh</span>
+    </div>
+
+    <!-- Clean High-Contrast Screen -->
+    <div class="lcd-screen">
+      <button class="lcd-menu-dot" onclick="openTool('history')" title="History">⋮</button>
+      <div class="lcd-expr" id="lcdExpr"></div>
+      <div class="lcd-ans" id="lcdAns">0</div>
+    </div>
+
+    <!-- Circular Toolbar -->
+    <div class="icon-toolbar">
+      <button class="t-circle" onclick="openTool('history')">☰</button>
+      <button class="t-circle pro" onclick="openTool('solve')">PRO</button>
+      <button class="t-circle" onclick="insertTextAtCursor('x')">x</button>
+      <button class="t-circle" onclick="insertSigma()">Σ</button>
+      <button class="t-circle" onclick="openModal('setOv')">⚙</button>
+      <button class="t-circle" onclick="insertTextAtCursor(',')">,</button>
+      <button class="t-circle rad-btn" id="radBtn" onclick="cycleAngle()">DEG</button>
+    </div>
+
+    <!-- Main Keypad -->
+    <div class="keypad-wrap">
+      <!-- Top Cluster -->
+      <div class="cluster-top">
+        <div class="mini-2x2">
+          <div class="cell">
+            <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+            <button class="k k-shift" onclick="toggleShift()">SHIFT</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+            <button class="k k-alpha" onclick="toggleAlpha()">ALPHA</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg">SOLVE</span><span class="sa">=</span></div>
+            <button class="k" onclick="openTool('calc')">CALC</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg">d/dx</span><span class="sa">;</span></div>
+            <button class="k" onclick="pressKey('!', '!', '', '')">x!</button>
+          </div>
+        </div>
+
+        <!-- Big Oval 4-Way D-Pad -->
+        <div class="oval-dpad">
+          <button class="d-btn d-u" onclick="jumpSlot(-1)">▲</button>
+          <button class="d-btn d-l" onclick="moveCursor(-1)">◀</button>
+          <button class="d-c" onclick="evaluateMain()" title="="></button>
+          <button class="d-btn d-r" onclick="moveCursor(1)">▶</button>
+          <button class="d-btn d-d" onclick="jumpSlot(1)">▼</button>
+        </div>
+
+        <div class="mini-2x2">
+          <div class="cell">
+            <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+            <button class="k" onclick="cycleAngle()">MODE</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+            <button class="k" onclick="insertSigma()">2nd</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg">x!</span><span class="sa"></span></div>
+            <button class="k" onclick="pressKey('^(-1)', '^(-1)', '', '')">x⁻¹</button>
+          </div>
+          <div class="cell">
+            <div class="subs"><span class="sg">Σ</span><span class="sa">Π</span></div>
+            <button class="k" onclick="pressKey('logb(2,8)', 'Σ(x^2,1,5)', '', '')">Logₓy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Scientific Rows x 6 Cols -->
+      <div class="grid-6">
+        <div class="cell">
+          <div class="subs"><span class="sg">a/b</span><span class="sa">+R</span></div>
+          <button class="k" onclick="pressKey('/', '/', '', '')">x/y</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">∛</span><span class="sa">mod</span></div>
+          <button class="k" onclick="pressKey('√(', '∛(', '', '')">√x</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">x³</span><span class="sa"></span></div>
+          <button class="k" onclick="pressKey('^2', '^3', '', '')">x²</button>
+                  </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">ʸ√x</span><span class="sa"></span></div>
+          <button class="k" onclick="pressKey('^', '^(1/', '', '')">xʸ</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">10ˣ</span><span class="sa"></span></div>
+          <button class="k" onclick="pressKey('log(', '10^(', '', '')">Log</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">eˣ</span><span class="sa">t</span></div>
+          <button class="k" onclick="pressKey('ln(', 'exp(', '', '')">Ln</button>
+        </div>
+
+        <div class="cell">
+          <div class="subs"><span class="sg">∠</span><span class="sa">a</span></div>
+          <button class="k" onclick="pressKey('-', '-', 'A', '')">(−)</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">FACT</span><span class="sa">b</span></div>
+          <button class="k" onclick="pressKey('abs(', 'abs(', 'B', '')">|x|</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">hyp</span><span class="sa">c</span></div>
+          <button class="k" onclick="pressKey('nCr(', 'nPr(', 'C', '')">nCr</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Sin⁻¹</span><span class="sa">d</span></div>
+          <button class="k" onclick="pressKey('sin(', 'asin(', 'D', '')">Sin</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Cos⁻¹</span><span class="sa">e</span></div>
+          <button class="k" onclick="pressKey('cos(', 'acos(', 'E', '')">Cos</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Tan⁻¹</span><span class="sa">f</span></div>
+          <button class="k" onclick="pressKey('tan(', 'atan(', 'F', '')">Tan</button>
+        </div>
+
+        <div class="cell">
+          <div class="subs"><span class="sg">STO</span><span class="sa">CLRv</span></div>
+          <button class="k" onclick="memOp('recall')">RCL</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">%</span><span class="sa"></span></div>
+          <button class="k" onclick="pressKey('%', '%', '', '')">%</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+          <button class="k" onclick="pressNum('(')">(</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+          <button class="k" onclick="pressNum(')')">)</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">M−</span><span class="sa">m</span></div>
+          <button class="k" onclick="memOp('sub')">M−</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">MC</span><span class="sa"></span></div>
+          <button class="k" onclick="memOp('add')">M+</button>
+        </div>
+      </div>
+
+      <!-- 4 Main Numeric Rows x 5 Cols -->
+      <div class="grid-5">
+        <div class="cell">
+          <div class="subs"><span class="sg">CONST</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('7')">7</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">CONV</span><span class="sa">SI</span></div>
+          <button class="k k-num" onclick="pressNum('8')">8</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Limit</span><span class="sa">∞</span></div>
+          <button class="k k-num" onclick="pressNum('9')">9</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg"></span><span class="sa"></span></div>
+          <button class="k k-org" onclick="backspace()">⌫</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">CLR ALL</span><span class="sa"></span></div>
+          <button class="k k-org" onclick="clearAll()">AC</button>
+        </div>
+
+        <div class="cell">
+          <div class="subs"><span class="sg">MATRIX</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('4')">4</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">VECTOR</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('5')">5</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">FUNC</span><span class="sa">HELP</span></div>
+          <button class="k k-num" onclick="pressNum('6')">6</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">nPr</span><span class="sa">GCD</span></div>
+          <button class="k k-op" onclick="pressOp('*')">×</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">nCr</span><span class="sa">LCM</span></div>
+          <button class="k k-op" onclick="pressOp('/')">÷</button>
+                  </div>
+
+        <div class="cell">
+          <div class="subs"><span class="sg">STAT</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('1')">1</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">CMPLX</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('2')">2</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">DISTR</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('3')">3</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Pol</span><span class="sa">Ceil</span></div>
+          <button class="k k-op" onclick="pressOp('+')">+</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Rec</span><span class="sa">Floor</span></div>
+          <button class="k k-op" onclick="pressOp('-')">−</button>
+        </div>
+
+        <div class="cell">
+          <div class="subs"><span class="sg">COPY</span><span class="sa">PASTE</span></div>
+          <button class="k k-num" onclick="pressNum('0')">0</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">Ran#</span><span class="sa"></span></div>
+          <button class="k k-num" onclick="pressNum('.')">.</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">π</span><span class="sa">e</span></div>
+          <button class="k k-word" onclick="pressKey('π', 'e', 'e', '')">π</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">PreAns</span><span class="sa"></span></div>
+          <button class="k k-word" onclick="insertTextAtCursor('Ans')">Ans</button>
+        </div>
+        <div class="cell">
+          <div class="subs"><span class="sg">History</span><span class="sa"></span></div>
+          <button class="k k-op" onclick="evaluateMain()">=</button>
+        </div>
       </div>
     </div>
 
-    <!-- Status Indicators -->
-    <div class="status-strip">
-      <div class="indicators">
-        <span class="ind" id="indShift">SHIFT</span>
-        <span class="ind" id="indAlpha">ALPHA</span>
-        <span class="ind mode-on" id="indAngle" onclick="cycleAngle()">DEG</span>
-        <span class="ind" id="indMem">M: 0</span>
+    <!-- Tools Overlay -->
+    <div class="overlay" id="toolOv">
+      <div class="ov-head">
+        <span class="ov-title" id="ovTitle">الأدوات</span>
+        <button class="ov-x" onclick="closeModal('toolOv')">رجوع ✕</button>
       </div>
-      <div class="active-hint" id="activeHint">الوضع القياسي</div>
-    </div>
-        <!-- Natural Mathematical Screen -->
-    <div class="screen">
-      <div class="screen-top-bar">
-        <span id="screenModeLabel">MATH • NATURAL DISPLAY</span>
-        <div class="screen-btns">
-          <button class="scr-mini-btn" onclick="insertSigmaTemplate()">Σ</button>
-          <button class="scr-mini-btn" onclick="copyResult()">Copy</button>
-          <button class="scr-mini-btn" onclick="toggleSteps()">Steps</button>
-        </div>
-      </div>
-      <div class="natural-expr" id="naturalExpr">0</div>
-      <div class="result-row">
-        <span class="steps-badge" id="stepsBadge" onclick="toggleSteps()">عرض الخطوات</span>
-        <div class="result-val" id="resultVal">0</div>
-      </div>
-      <div class="steps-drawer" id="stepsDrawer"></div>
+      <div id="ovBody"></div>
     </div>
 
-    <!-- Scientific & Engineering Tools Bar -->
-    <div class="tools-ribbon">
-      <button class="tool-tab" onclick="openTool('solve')">SOLVE</button>
-      <button class="tool-tab" onclick="openTool('calc')">CALC</button>
-      <button class="tool-tab" onclick="openTool('matrix')">MATRIX</button>
-      <button class="tool-tab" onclick="openTool('vector')">VECTOR</button>
-      <button class="tool-tab" onclick="openTool('stat')">STAT</button>
-      <button class="tool-tab" onclick="openTool('conv')">CONV</button>
-      <button class="tool-tab" onclick="openTool('const')">CONST</button>
-      <button class="tool-tab" onclick="openTool('complex')">COMPLEX</button>
-      <button class="tool-tab" onclick="openTool('memory')">MEM</button>
-      <button class="tool-tab" onclick="openTool('history')">HIST</button>
-    </div>
-
-    <!-- Touch & D-Pad Cursor Navigation Bar -->
-    <div class="dpad-bar">
-      <div class="dpad-group">
-        <button class="dpad-btn" onclick="moveCursor(-1)" title="يسار">◀</button>
-        <button class="dpad-btn" onclick="moveCursor(1)" title="يمين">▶</button>
-        <button class="dpad-btn" onclick="jumpSlot(-1)" title="أعلى / الحقل السابق">▲</button>
-        <button class="dpad-btn" onclick="jumpSlot(1)" title="أسفل / الحقل التالي">▼</button>
+    <!-- Settings Overlay -->
+    <div class="overlay" id="setOv">
+      <div class="ov-head">
+        <span class="ov-title">إعدادات CalcSLH — Cyber-Saleh</span>
+        <button class="ov-x" onclick="closeModal('setOv')">حفظ ✓</button>
       </div>
-      <div class="dpad-group">
-        <button class="dpad-btn" style="font-size:0.74rem; color:var(--teal-bright);" onclick="insertTextAtCursor('x')">x</button>
-        <button class="dpad-btn" style="font-size:0.74rem; color:var(--teal-bright);" onclick="insertTextAtCursor(',')">,</button>
-      </div>
-    </div>
-
-    <!-- 3D Keypad -->
-    <div class="keypad-section">
-      <!-- Scientific Row -->
-      <div class="sci-grid">
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">OFF</span><span class="lbl-alpha"></span></div>
-          <button class="k3d sci shift-key" onclick="toggleShift()">SHIFT</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift"></span><span class="lbl-alpha">LOCK</span></div>
-          <button class="k3d sci alpha-key" onclick="toggleAlpha()">ALPHA</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">sin⁻¹</span><span class="lbl-alpha">A</span></div>
-          <button class="k3d sci" onclick="pressKey('sin(', 'asin(', 'A', 'دالة الجيب sin / العكسية sin⁻¹')">sin</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">cos⁻¹</span><span class="lbl-alpha">B</span></div>
-          <button class="k3d sci" onclick="pressKey('cos(', 'acos(', 'B', 'جيب التمام cos / العكسية cos⁻¹')">cos</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">tan⁻¹</span><span class="lbl-alpha">C</span></div>
-          <button class="k3d sci" onclick="pressKey('tan(', 'atan(', 'C', 'الظل tan / العكسية tan⁻¹')">tan</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">x!</span><span class="lbl-alpha">D</span></div>
-          <button class="k3d sci" onclick="pressKey('!', '!', 'D', 'المضروب Factorial (!)')">x!</button>
-        </div>
-
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">logᵦ</span><span class="lbl-alpha">E</span></div>
-          <button class="k3d sci" onclick="pressKey('log(', 'logb(2,8)', 'E', 'اللوغاريتم log / لوغاريتم بأساس logᵦ(الأساس, القيمة)')">log</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">eˣ</span><span class="lbl-alpha">F</span></div>
-          <button class="k3d sci" onclick="pressKey('ln(', 'exp(', 'F', 'اللوغاريتم الطبيعي ln / eˣ')">ln</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">∛</span><span class="lbl-alpha">X</span></div>
-          <button class="k3d sci" onclick="pressKey('√(', '∛(', 'X', 'الجذر التربيعي √ / التكعيبي ∛')">√x</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">x³</span><span class="lbl-alpha">Y</span></div>
-          <button class="k3d sci" onclick="pressKey('^2', '^3', 'Y', 'التربيع x² / التكعيب x³')">x²</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">ʸ√x</span><span class="lbl-alpha">M</span></div>
-          <button class="k3d sci" onclick="pressKey('^', '^(1/', 'M', 'الأس العام xʸ')">xʸ</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">Σ</span><span class="lbl-alpha">abs</span></div>
-          <button class="k3d sci" onclick="pressKey('abs(', 'Σ(x^2,1,5)', 'abs(', 'القيمة المطلقة |x| / المجموع سيغما Σ')">|x|</button>
-        </div>
-
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">π</span><span class="lbl-alpha">e</span></div>
-          <button class="k3d sci" onclick="pressKey('π', 'e', 'e', 'الثوابت الرياضية π و e')">π / e</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">nPr</span><span class="lbl-alpha">nCr</span></div>
-          <button class="k3d sci" onclick="pressKey('nCr(', 'nPr(', 'nCr(', 'التوافيق nCr والتباديل nPr')">nCr</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">a/b</span><span class="lbl-alpha">,</span></div>
-          <button class="k3d sci" onclick="pressKey('/', '/', ',', 'إدخال كسر / فاصلة')">a/b</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">M-</span><span class="lbl-alpha">MR</span></div>
-          <button class="k3d sci" onclick="memoryAction('M+')">M+</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">MC</span><span class="lbl-alpha">MS</span></div>
-          <button class="k3d sci" onclick="memoryAction('MR')">MR</button>
-        </div>
-        <div class="key-wrap">
-          <div class="sub-labels"><span class="lbl-shift">%</span><span class="lbl-alpha">Ans</span></div>
-          <button class="k3d sci" onclick="pressKey('%', '%', 'Ans', 'النسبة المئوية % / الإجابة السابقة Ans')">%</button>
+      <div class="box">
+        <h4>الأدوات العلمية السريعة</h4>
+        <div class="in-row">
+          <button class="act" onclick="closeModal('setOv');openTool('solve')">SOLVE</button>
+          <button class="act" onclick="closeModal('setOv');openTool('matrix')">MATRIX</button>
+          <button class="act" onclick="closeModal('setOv');openTool('stat')">STAT</button>
+          <button class="act" onclick="closeModal('setOv');openTool('conv')">CONV</button>
+          <button class="act" onclick="closeModal('setOv');openTool('const')">CONST</button>
         </div>
       </div>
-
-      <!-- Main Numeric & Operators Grid -->
-      <div class="main-grid">
-        <button class="k3d" onclick="pressNum('7')">7</button>
-        <button class="k3d" onclick="pressNum('8')">8</button>
-        <button class="k3d" onclick="pressNum('9')">9</button>
-        <button class="k3d del-key" onclick="backspace()">DEL</button>
-        <button class="k3d del-key" onclick="clearAll()">AC</button>
-
-        <button class="k3d" onclick="pressNum('4')">4</button>
-        <button class="k3d" onclick="pressNum('5')">5</button>
-        <button class="k3d" onclick="pressNum('6')">6</button>
-        <button class="k3d op-key" onclick="pressOp('*')">×</button>
-        <button class="k3d op-key" onclick="pressOp('/')">÷</button>
-
-        <button class="k3d" onclick="pressNum('1')">1</button>
-        <button class="k3d" onclick="pressNum('2')">2</button>
-        <button class="k3d" onclick="pressNum('3')">3</button>
-        <button class="k3d op-key" onclick="pressOp('+')">+</button>
-        <button class="k3d op-key" onclick="pressOp('-')">−</button>
-
-        <button class="k3d" onclick="pressNum('0')">0</button>
-        <button class="k3d" onclick="pressNum('.')">.</button>
-        <button class="k3d op-key" onclick="pressNum('(')">(</button>
-        <button class="k3d op-key" onclick="pressNum(')')">)</button>
-        <button class="k3d eq-key" onclick="evaluateMain()">=</button>
-      </div>
-    </div>
-
-    <div class="footer-sign">Designed & Engineered by <span>Cyber-Saleh</span> • CalcSLH</div>
-
-    <!-- Tools Modal Page -->
-    <div class="modal-page" id="toolsPage">
-      <div class="modal-head">
-        <span class="modal-title" id="toolPageTitle">الأدوات العلمية</span>
-        <button class="close-btn" onclick="closePage('toolsPage')">رجوع ✕</button>
-      </div>
-      <div id="toolPageBody"></div>
-    </div>
-
-    <!-- Settings Modal Page -->
-    <div class="modal-page" id="settingsPage">
-      <div class="modal-head">
-        <span class="modal-title">إعدادات وتخصيص CalcSLH</span>
-        <button class="close-btn" onclick="closePage('settingsPage')">حفظ ورجوع ✓</button>
-      </div>
-
-      <div class="card-box">
-        <h4>المظهر والألوان</h4>
-        <div class="field-row">
-          <select class="sci-select" id="cfgTheme" onchange="applySettings()">
-            <option value="dark">الوضع الداكن الفحمي (الافتراضي)</option>
-            <option value="light">الوضع الفاتح العصري</option>
-          </select>
-          <select class="sci-select" id="cfgAccent" onchange="applySettings()">
-            <option value="gold">الذهبي الملكي + الفيروزي</option>
-            <option value="royal">الأزرق التقني + البنفسجي</option>
-            <option value="emerald">الزمردي العلمي</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="card-box">
-        <h4>نظام قياس الزوايا</h4>
-        <div class="field-row">
-          <select class="sci-select" id="cfgAngle" onchange="applySettings()">
+      <div class="box">
+        <h4>نظام الزوايا والصوت والاهتزاز</h4>
+        <div class="in-row">
+          <select class="sel" id="cfgAng" onchange="saveCfg()">
             <option value="DEG">الدرجات (DEG)</option>
             <option value="RAD">الراديان (RAD)</option>
             <option value="GRAD">الغراديان (GRAD)</option>
           </select>
         </div>
-      </div>
-
-      <div class="card-box">
-        <h4>ملاءمة عرض الشاشة ومنع القص</h4>
-        <div class="field-row">
-          <select class="sci-select" id="cfgFitWidth" onchange="applyFitWidth()">
-            <option value="1">ملاءمة تلقائية (100%)</option>
-                          <option value="0.94">تصغير خفيف (94%)</option>
-            <option value="0.88">تصغير متوسط (88%)</option>
-            <option value="0.82">تصغير للشاشات الضيقة (82%)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="card-box">
-        <h4>تخصيص لوحة المفاتيح وحجم الأزرار</h4>
-        <div class="field-row">
-          <select class="sci-select" id="cfgSize" onchange="applySettings()">
-            <option value="1">حجم الأزرار: قياسي</option>
-            <option value="1.12">حجم الأزرار: كبير ومريح</option>
-            <option value="0.9">حجم الأزرار: مدمج</option>
-          </select>
-          <select class="sci-select" id="cfgLayout" onchange="applySettings()">
-            <option value="normal">تخطيط مريح بتباعد قياسي</option>
-            <option value="compact">تخطيط متقارب مكثف</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="card-box">
-        <h4>الصوت والاهتزاز عند الضغط</h4>
-        <div class="field-row">
-          <label><input type="checkbox" id="cfgSound" checked onchange="applySettings()" /> تفعيل نغمة الأزرار</label>
-          <label><input type="checkbox" id="cfgVibe" checked onchange="applySettings()" /> تفعيل الاهتزاز الخفيف</label>
+        <div class="in-row">
+          <label><input type="checkbox" id="cfgSnd" checked onchange="saveCfg()" /> صوت النقر</label>
+          <label><input type="checkbox" id="cfgVib" checked onchange="saveCfg()" /> اهتزاز خفيف</label>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // State & Persistence
-    let rawExpr = "";
-    let cursorPos = 0;
-    let lastAns = 0;
-    let memValue = Number(localStorage.getItem("calcslh_mem") || 0);
-    let vars = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, X: 0, Y: 0, M: memValue };
-    let shiftMode = false;
-    let alphaMode = false;
-    let calcSteps = [];
-    let historyList = JSON.parse(localStorage.getItem("calcslh_history") || "[]");
+    let raw = "";
+    let pos = 0;
+    let ans = 0;
+    let mem = Number(localStorage.getItem("slh2_mem") || 0);
+    let vars = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+    let shf = false;
+    let alp = false;
+    let hist = JSON.parse(localStorage.getItem("slh2_hist") || "[]");
+    let cfg = Object.assign({ ang: "DEG", snd: true, vib: true }, JSON.parse(localStorage.getItem("slh2_cfg") || "{}"));
 
-    let settings = Object.assign({
-      theme: "dark",
-      accent: "gold",
-      angle: "DEG",
-      size: "1",
-      layout: "normal",
-      sound: true,
-      vibe: true
-    }, JSON.parse(localStorage.getItem("calcslh_settings") || "{}"));
-
-    let audioCtx = null;
-    function getAudioCtx() {
-      if (!audioCtx) {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        if (Ctx) audioCtx = new Ctx();
-      }
-      return audioCtx;
-    }
-
-    function feedback() {
+    let actx = null;
+    function tick() {
+      try { if (cfg.vib && navigator.vibrate) navigator.vibrate(12); } catch (e) {}
       try {
-        if (settings.vibe && navigator.vibrate) navigator.vibrate(14);
-      } catch (e) {}
-      try {
-        if (settings.sound) {
-          const ctx = getAudioCtx();
-          if (ctx) {
-            if (ctx.state === "suspended") ctx.resume();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = "triangle";
-            osc.frequency.setValueAtTime(520, ctx.currentTime);
-            gain.gain.setValueAtTime(0.03, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.035);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start();
-            osc.stop(ctx.currentTime + 0.035);
+        if (cfg.snd) {
+          const C = window.AudioContext || window.webkitAudioContext;
+          if (C) {
+            if (!actx) actx = new C();
+                if (actx.state === "suspended") actx.resume();
+            const o = actx.createOscillator(), g = actx.createGain();
+            o.type = "triangle"; o.frequency.value = 540;
+            g.gain.setValueAtTime(0.025, actx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.03);
+            o.connect(g); g.connect(actx.destination);
+            o.start(); o.stop(actx.currentTime + 0.03);
           }
         }
       } catch (e) {}
     }
 
-    function applyFitWidth() {
-      const el = document.getElementById("cfgFitWidth");
-      if (!el) return;
-      const scale = Number(el.value) || 1;
-      const shell = document.querySelector(".calc-shell");
-      if (shell) {
-        shell.style.zoom = scale === 1 ? "1" : String(scale);
-      }
-      localStorage.setItem("calcslh_fit", String(scale));
+    function saveCfg() {
+      cfg.ang = document.getElementById("cfgAng").value;
+      cfg.snd = document.getElementById("cfgSnd").checked;
+      cfg.vib = document.getElementById("cfgVib").checked;
+      document.getElementById("iDeg").textContent = cfg.ang;
+      document.getElementById("radBtn").textContent = cfg.ang;
+      localStorage.setItem("slh2_cfg", JSON.stringify(cfg));
     }
 
-    function applySettings() {
-      settings.theme = document.getElementById("cfgTheme").value;
-      settings.accent = document.getElementById("cfgAccent").value;
-      settings.angle = document.getElementById("cfgAngle").value;
-      settings.size = document.getElementById("cfgSize").value;
-      settings.layout = document.getElementById("cfgLayout").value;
-      settings.sound = document.getElementById("cfgSound").checked;
-      settings.vibe = document.getElementById("cfgVibe").checked;
-
-      document.body.classList.toggle("theme-light", settings.theme === "light");
-      document.body.classList.remove("accent-royal", "accent-emerald");
-      if (settings.accent === "royal") document.body.classList.add("accent-royal");
-      if (settings.accent === "emerald") document.body.classList.add("accent-emerald");
-      document.body.classList.toggle("layout-compact", settings.layout === "compact");
-      document.documentElement.style.setProperty("--btn-scale", settings.size);
-
-      document.getElementById("indAngle").textContent = settings.angle;
-      localStorage.setItem("calcslh_settings", JSON.stringify(settings));
-    }
-
-    function initSettingsUI() {
-      document.getElementById("cfgTheme").value = settings.theme;
-      document.getElementById("cfgAccent").value = settings.accent;
-      document.getElementById("cfgAngle").value = settings.angle;
-      document.getElementById("cfgSize").value = settings.size;
-      document.getElementById("cfgLayout").value = settings.layout;
-      document.getElementById("cfgSound").checked = settings.sound;
-      document.getElementById("cfgVibe").checked = settings.vibe;
-      applySettings();
-      const savedFit = localStorage.getItem('calcslh_fit');
-      if (savedFit && document.getElementById('cfgFitWidth')) { document.getElementById('cfgFitWidth').value = savedFit; applyFitWidth(); }
-      updateMemBadge();
+    function init() {
+      document.getElementById("cfgAng").value = cfg.ang;
+      document.getElementById("cfgSnd").checked = cfg.snd;
+      document.getElementById("cfgVib").checked = cfg.vib;
+      saveCfg();
+      document.getElementById("iMem").classList.toggle("on", mem !== 0);
+      render();
     }
 
     function cycleAngle() {
-      feedback();
-      const order = ["DEG", "RAD", "GRAD"];
-      const idx = (order.indexOf(settings.angle) + 1) % order.length;
-      settings.angle = order[idx];
-      document.getElementById("cfgAngle").value = settings.angle;
-      applySettings();
+      tick();
+      const arr = ["DEG", "RAD", "GRAD"];
+      cfg.ang = arr[(arr.indexOf(cfg.ang) + 1) % arr.length];
+      document.getElementById("cfgAng").value = cfg.ang;
+      saveCfg();
     }
 
     function toggleShift() {
-      feedback();
-      shiftMode = !shiftMode;
-      if (shiftMode) alphaMode = false;
-      updateModeUI("وضع SHIFT نشط (الوظائف الذهبية)");
+      tick(); shf = !shf; if (shf) alp = false;
+      document.getElementById("iShift").classList.toggle("on", shf);
+      document.getElementById("iAlpha").classList.toggle("on-a", alp);
     }
 
     function toggleAlpha() {
-      feedback();
-      alphaMode = !alphaMode;
-      if (alphaMode) shiftMode = false;
-      updateModeUI("وضع ALPHA نشط (المتغيرات والرموز)");
+      tick(); alp = !alp; if (alp) shf = false;
+      document.getElementById("iShift").classList.toggle("on", shf);
+      document.getElementById("iAlpha").classList.toggle("on-a", alp);
     }
 
-    function updateModeUI(msg) {
-      document.body.classList.toggle("mode-shift", shiftMode);
-      document.body.classList.toggle("mode-alpha", alphaMode);
-      document.getElementById("indShift").classList.toggle("shift-on", shiftMode);
-      document.getElementById("indAlpha").classList.toggle("alpha-on", alphaMode);
-      document.getElementById("activeHint").textContent =
-        shiftMode ? msg : alphaMode ? msg : "الوضع القياسي";
+    function insertTextAtCursor(t) {
+      tick();
+      raw = raw.slice(0, pos) + t + raw.slice(pos);
+      pos += t.length;
+      render();
     }
 
-    function insertTextAtCursor(txt) {
-      feedback();
-      rawExpr = rawExpr.slice(0, cursorPos) + txt + rawExpr.slice(cursorPos);
-      cursorPos += txt.length;
-      renderNaturalDisplay();
+    function setPos(p) {
+      tick();
+      pos = Math.max(0, Math.min(raw.length, p));
+      render();
     }
 
-    function setCursor(pos) {
-      feedback();
-      cursorPos = Math.max(0, Math.min(rawExpr.length, pos));
-      renderNaturalDisplay();
+    function moveCursor(d) {
+      tick();
+      pos = Math.max(0, Math.min(raw.length, pos + d));
+      render();
     }
 
-    function moveCursor(delta) {
-      feedback();
-      cursorPos = Math.max(0, Math.min(rawExpr.length, cursorPos + delta));
-      renderNaturalDisplay();
-    }
-
-    // Jump between key slots inside Σ(expr,start,end), logb(base,val), or parentheses/commas
     function jumpSlot(dir) {
-      feedback();
-      const targets = [0];
-      for (let i = 0; i < rawExpr.length; i++) {
-        if (rawExpr[i] === "(" || rawExpr[i] === ",") {
-          targets.push(i + 1);
-        }
-      }
-      targets.push(rawExpr.length);
-      const unique = [...new Set(targets)].sort((a, b) => a - b);
+      tick();
+      const pts = [0];
+      for (let i = 0; i < raw.length; i++) if (raw[i] === "(" || raw[i] === ",") pts.push(i + 1);
+      pts.push(raw.length);
+      const u = [...new Set(pts)].sort((a, b) => a - b);
       if (dir > 0) {
-        const next = unique.find(p => p > cursorPos);
-        cursorPos = next !== undefined ? next : unique[0];
+        const n = u.find(x => x > pos); pos = n !== undefined ? n : u[0];
       } else {
-        const prev = [...unique].reverse().find(p => p < cursorPos);
-        cursorPos = prev !== undefined ? prev : unique[unique.length - 1];
+        const p = [...u].reverse().find(x => x < pos); pos = p !== undefined ? p : u[u.length - 1];
       }
-      renderNaturalDisplay();
-        }
-
-    function pressKey(normalVal, shiftVal, alphaVal, desc) {
-      feedback();
-      let chosen = normalVal;
-      if (shiftMode && shiftVal) chosen = shiftVal;
-      else if (alphaMode && alphaVal) chosen = alphaVal;
-
-      rawExpr = rawExpr.slice(0, cursorPos) + chosen + rawExpr.slice(cursorPos);
-      // If inserting template like Σ(x^2,1,5) or logb(2,), place cursor at first editable slot
-      if (chosen === "Σ(x^2,1,5)") {
-        cursorPos = cursorPos + 2; // right inside Σ(|x^2,1,5)
-      } else if (chosen === "logb(2,") {
-        cursorPos = cursorPos + 5; // right at base slot logb(|2,
-      } else {
-        cursorPos += chosen.length;
-      }
-
-      document.getElementById("activeHint").textContent = desc || chosen;
-      shiftMode = false;
-      alphaMode = false;
-      updateModeUI("");
-      renderNaturalDisplay();
+      render();
     }
 
-    function pressNum(ch) {
-      feedback();
-      rawExpr = rawExpr.slice(0, cursorPos) + ch + rawExpr.slice(cursorPos);
-      cursorPos += ch.length;
-      renderNaturalDisplay();
+    function insertSigma() {
+      tick();
+      const t = "Σ(x^2,1,5)";
+      raw = raw.slice(0, pos) + t + raw.slice(pos);
+      pos += 2;
+      render();
+    }
+
+    function pressKey(n, s, a) {
+      tick();
+      let pick = n;
+      if (shf && s) pick = s;
+      else if (alp && a) pick = a;
+      raw = raw.slice(0, pos) + pick + raw.slice(pos);
+      if (pick === "Σ(x^2,1,5)") pos += 2;
+      else if (pick === "logb(2,8)") pos += 5;
+      else pos += pick.length;
+      shf = false; alp = false;
+      document.getElementById("iShift").classList.remove("on");
+      document.getElementById("iAlpha").classList.remove("on-a");
+      render();
+    }
+
+    function pressNum(n) {
+          tick();
+      raw = raw.slice(0, pos) + n + raw.slice(pos);
+      pos += n.length;
+      render();
     }
 
     function pressOp(op) {
-      feedback();
-      if (!rawExpr && lastAns !== 0) {
-        rawExpr = "Ans";
-        cursorPos = 3;
-      }
-      rawExpr = rawExpr.slice(0, cursorPos) + op + rawExpr.slice(cursorPos);
-      cursorPos += op.length;
-      renderNaturalDisplay();
+      tick();
+      if (!raw && ans !== 0) { raw = "Ans"; pos = 3; }
+      raw = raw.slice(0, pos) + op + raw.slice(pos);
+      pos += op.length;
+      render();
     }
 
     function backspace() {
-      feedback();
-      if (cursorPos > 0) {
-        rawExpr = rawExpr.slice(0, cursorPos - 1) + rawExpr.slice(cursorPos);
-        cursorPos--;
-      }
-      renderNaturalDisplay();
+      tick();
+      if (pos > 0) { raw = raw.slice(0, pos - 1) + raw.slice(pos); pos--; render(); }
     }
 
     function clearAll() {
-      feedback();
-      rawExpr = "";
-      cursorPos = 0;
-      calcSteps = [];
-      document.getElementById("resultVal").textContent = "0";
-      document.getElementById("stepsDrawer").classList.remove("open");
-      renderNaturalDisplay();
+      tick();
+      raw = ""; pos = 0;
+      document.getElementById("lcdAns").textContent = "0";
+      render();
     }
 
-    function renderSegmentWithCursor(str, baseOffset) {
-      let out = "";
+    function seg(str, off) {
+      let h = "";
       for (let i = 0; i <= str.length; i++) {
-        const absIdx = baseOffset + i;
-        if (absIdx === cursorPos) {
-          out += '<span class="cursor-caret"></span>';
-        }
+        if (off + i === pos) h += '<span class="caret"></span>';
         if (i < str.length) {
-          let ch = str[i];
-          if (ch === "*") ch = "×";
-          else if (ch === "/") ch = "÷";
-          else if (ch === "<") ch = "&lt;";
-          else if (ch === ">") ch = "&gt;";
-          else if (ch === "&") ch = "&amp;";
-          out += `<span class="expr-char" onclick="event.stopPropagation(); setCursor(${absIdx + 1})">${ch}</span>`;
+          let c = str[i];
+          if (c === "*") c = "×"; else if (c === "/") c = "÷";
+          h += `<span class="ch-span" onclick="event.stopPropagation(); setPos(${off + i + 1})">${c}</span>`;
         }
       }
-      return out;
+      return h;
     }
 
-    function renderNaturalDisplay() {
-      const box = document.getElementById("naturalExpr");
-      box.onclick = () => setCursor(rawExpr.length);
-
-      if (!rawExpr) {
-        box.innerHTML = '<span class="cursor-caret"></span><span style="opacity:0.45">0</span>';
-        return;
-      }
-
-      // Parse structured visual blocks: Σ(expr,start,end) and logb(base,val) while keeping exact character indices
-      let resultHtml = "";
-      let i = 0;
-      while (i < rawExpr.length) {
-        const sigmaMatch = rawExpr.slice(i).match(/^Σ\(([^(),]*),([^(),]*),([^()]*)\)/);
-        if (sigmaMatch) {
-          const full = sigmaMatch[0];
-          const body = sigmaMatch[1];
-          const start = sigmaMatch[2];
-          const end = sigmaMatch[3];
-
-          const bodyOffset = i + 2;
-          const startOffset = bodyOffset + body.length + 1;
-          const endOffset = startOffset + start.length + 1;
-
-          const bodyActive = cursorPos >= bodyOffset && cursorPos <= bodyOffset + body.length;
-          const startActive = cursorPos >= startOffset && cursorPos <= startOffset + start.length;
-          const endActive = cursorPos >= endOffset && cursorPos <= endOffset + end.length;
-
-          resultHtml += `
-            <span class="math-sigma" onclick="event.stopPropagation()">
-              <span class="sigma-stack">
-                <span class="sigma-top math-slot ${endActive ? "active-slot" : ""}" onclick="setCursor(${endOffset + end.length})">${renderSegmentWithCursor(end, endOffset)}</span>
-                <span class="sigma-sym" onclick="setCursor(${bodyOffset + body.length})">∑</span>
-                <span class="sigma-bot math-slot ${startActive ? "active-slot" : ""}" onclick="setCursor(${startOffset + start.length})">x=${renderSegmentWithCursor(start, startOffset)}</span>
-              </span>
-              <span class="sigma-body math-slot ${bodyActive ? "active-slot" : ""}" onclick="setCursor(${bodyOffset + body.length})">${renderSegmentWithCursor(body, bodyOffset)}</span>
-            </span>`;
-          i += full.length;
-          continue;
+    function render() {
+      const box = document.getElementById("lcdExpr");
+      box.onclick = () => setPos(raw.length);
+      if (!raw) { box.innerHTML = '<span class="caret"></span>'; return; }
+      let out = "", i = 0;
+      while (i < raw.length) {
+        const sm = raw.slice(i).match(/^Σ\(([^(),]*),([^(),]*),([^()]*)\)/);
+        if (sm) {
+          const [full, b, st, en] = sm;
+          const bo = i + 2, so = bo + b.length + 1, eo = so + st.length + 1;
+          out += `<span class="m-sigma" onclick="event.stopPropagation()"><span class="s-col"><span class="s-top slot ${pos>=eo&&pos<=eo+en.length?'act':''}" onclick="setPos(${eo+en.length})">${seg(en, eo)}</span><span class="s-sym" onclick="setPos(${bo+b.length})">∑</span><span class="s-bot slot ${pos>=so&&pos<=so+st.length?'act':''}" onclick="setPos(${so+st.length})">x=${seg(st, so)}</span></span><span class="s-box slot ${pos>=bo&&pos<=bo+b.length?'act':''}" onclick="setPos(${bo+b.length})">${seg(b, bo)}</span></span>`;
+          i += full.length; continue;
         }
-
-        const logbMatch = rawExpr.slice(i).match(/^logb\(([^(),]*),([^()]*)\)/);
-        if (logbMatch) {
-          const full = logbMatch[0];
-          const base = logbMatch[1];
-          const val = logbMatch[2];
-
-          const baseOffset = i + 5;
-          const valOffset = baseOffset + base.length + 1;
-
-          const baseActive = cursorPos >= baseOffset && cursorPos <= baseOffset + base.length;
-          const valActive = cursorPos >= valOffset && cursorPos <= valOffset + val.length;
-
-          resultHtml += `
-            <span class="math-logb" onclick="event.stopPropagation()">
-              <span class="logb-head">log</span>
-              <span class="logb-sub math-slot ${baseActive ? "active-slot" : ""}" onclick="setCursor(${baseOffset + base.length})">${renderSegmentWithCursor(base, baseOffset)}</span>
-              <span>(</span>
-              <span class="math-slot ${valActive ? "active-slot" : ""}" onclick="setCursor(${valOffset + val.length})">${renderSegmentWithCursor(val, valOffset)}</span>
-              <span>)</span>
-            </span>`;
-          i += full.length;
-          continue;
+        const lm = raw.slice(i).match(/^logb\(([^(),]*),([^()]*)\)/);
+        if (lm) {
+          const [full, bs, vl] = lm;
+          const bo = i + 5, vo = bo + bs.length + 1;
+          out += `<span class="m-logb" onclick="event.stopPropagation()"><b>log</b><span class="lb-sub slot ${pos>=bo&&pos<=bo+bs.length?'act':''}" onclick="setPos(${bo+bs.length})">${seg(bs, bo)}</span>(<span class="slot ${pos>=vo&&pos<=vo+vl.length?'act':''}" onclick="setPos(${vo+vl.length})">${seg(vl, vo)}</span>)</span>`;
+          i += full.length; continue;
         }
-
-        // Plain character outside structured templates
-        if (i === cursorPos) {
-          resultHtml += '<span class="cursor-caret"></span>';
-        }
-        let ch = rawExpr[i];
-        if (ch === "*") ch = "×";
-        else if (ch === "/") ch = "÷";
-        else if (ch === "<") ch = "&lt;";
-        else if (ch === ">") ch = "&gt;";
-        else if (ch === "&") ch = "&amp;";
-        resultHtml += `<span class="expr-char" onclick="event.stopPropagation(); setCursor(${i + 1})">${ch}</span>`;
+        if (i === pos) out += '<span class="caret"></span>';
+        let c = raw[i];
+        if (c === "*") c = "×"; else if (c === "/") c = "÷";
+        out += `<span class="ch-span" onclick="event.stopPropagation(); setPos(${i + 1})">${c}</span>`;
         i++;
       }
-
-      if (cursorPos === rawExpr.length) {
-        resultHtml += '<span class="cursor-caret"></span>';
-      }
-
-      box.innerHTML = resultHtml;
+      if (pos === raw.length) out += '<span class="caret"></span>';
+      box.innerHTML = out;
     }
 
-    // Mathematical Helpers
-    function toRad(v) {
-      if (settings.angle === "DEG") return (v * Math.PI) / 180;
-      if (settings.angle === "GRAD") return (v * Math.PI) / 200;
-      return v;
-    }
+    function toR(v) { return cfg.ang === "DEG" ? (v * Math.PI) / 180 : cfg.ang === "GRAD" ? (v * Math.PI) / 200 : v; }
+    function fmR(r) { return cfg.ang === "DEG" ? (r * 180) / Math.PI : cfg.ang === "GRAD" ? (r * 200) / Math.PI : r; }
+    function fact(n) { if (n < 0 || !Number.isInteger(n) || n > 170) return NaN; let r = 1; for (let i = 2; i <= n; i++) r *= i; return r; }
+    function nCr(n, r) { return (r < 0 || r > n || !Number.isInteger(n) || !Number.isInteger(r)) ? NaN : fact(n) / (fact(r) * fact(n - r)); }
+    function nPr(n, r) { return (r < 0 || r > n || !Number.isInteger(n) || !Number.isInteger(r)) ? NaN : fact(n) / fact(n - r); }
 
-    function fromRad(r) {
-      if (settings.angle === "DEG") return (r * 180) / Math.PI;
-      if (settings.angle === "GRAD") return (r * 200) / Math.PI;
-      return r;
-    }
-
-    function factorial(n) {
-      if (n < 0 || !Number.isInteger(n) || n > 170) return NaN;
-      let r = 1;
-      for (let i = 2; i <= n; i++) r *= i;
-      return r;
-    }
-
-    function nCr(n, r) {
-      if (r < 0 || r > n || !Number.isInteger(n) || !Number.isInteger(r)) return NaN;
-      return factorial(n) / (factorial(r) * factorial(n - r));
-    }
-
-    function nPr(n, r) {
-      if (r < 0 || r > n || !Number.isInteger(n) || !Number.isInteger(r)) return NaN;
-      return factorial(n) / factorial(n - r);
-    }
-
-    function sigmaSum(exprStr, startVal, endVal) {
-      const s = Math.round(Number(startVal));
-      const e = Math.round(Number(endVal));
+    function sigmaSum(expr, a, b) {
+      const s = Math.round(Number(a)), e = Math.round(Number(b));
       if (!isFinite(s) || !isFinite(e) || Math.abs(e - s) > 5000) return NaN;
-          let total = 0;
-      const step = s <= e ? 1 : -1;
+      let sum = 0, step = s <= e ? 1 : -1;
       for (let k = s; step > 0 ? k <= e : k >= e; k += step) {
-        const val = evaluateExpression(exprStr, k);
-        if (typeof val !== "number" || !isFinite(val)) return NaN;
-        total += val;
+        const v = evalMath(expr, k);
+        if (typeof v !== "number" || !isFinite(v)) return NaN;
+        sum += v;
       }
-      return total;
+      return sum;
     }
 
-    function evaluateExpression(exprStr, customX = null) {
-      let s = exprStr.trim();
+    function evalMath(expr, cx = null) {
+      let s = expr.trim();
       if (!s) return 0;
-
-      // Support Sigma notation: Σ(expr, start, end)
       while (/Σ\(/.test(s)) {
         const idx = s.indexOf("Σ(");
-        let depth = 0;
-        let endIdx = -1;
+        let d = 0, end = -1;
         for (let i = idx + 1; i < s.length; i++) {
-          if (s[i] === "(") depth++;
-          else if (s[i] === ")") {
-            depth--;
-            if (depth === 0) {
-              endIdx = i;
-              break;
-            }
-          }
+          if (s[i] === "(") d++; else if (s[i] === ")" && --d === 0) { end = i; break; }
         }
-        if (endIdx === -1) {
-          s = s + ")".repeat(depth);
-          endIdx = s.length - 1;
-        }
-        const inside = s.slice(idx + 2, endIdx);
-        const parts = [];
-        let buf = "";
-        let pDepth = 0;
+        if (end === -1) { s += ")".repeat(d); end = s.length - 1; }
+        const inside = s.slice(idx + 2, end), parts = [];
+        let buf = "", pd = 0;
         for (let i = 0; i < inside.length; i++) {
           const ch = inside[i];
-          if (ch === "(") pDepth++;
-          else if (ch === ")") pDepth--;
-          if (ch === "," && pDepth === 0) {
-            parts.push(buf.trim());
-            buf = "";
-          } else {
-            buf += ch;
-          }
+          if (ch === "(") pd++; else if (ch === ")") pd--;
+          if (ch === "," && pd === 0) { parts.push(buf.trim()); buf = ""; } else buf += ch;
         }
         parts.push(buf.trim());
         if (parts.length < 3) return NaN;
-        const sumResult = sigmaSum(parts[0], parts[1], parts[2]);
-        s = s.slice(0, idx) + `(${sumResult})` + s.slice(endIdx + 1);
-      }
-
-      // Auto-close missing parentheses
-      const opens = (s.match(/\(/g) || []).length;
-      const closes = (s.match(/\)/g) || []).length;
-      if (opens > closes) s += ")".repeat(opens - closes);
+        s = s.slice(0, idx) + `(${sigmaSum(parts[0], parts[1], parts[2])})` + s.slice(end + 1);
+          }
+      const oN = (s.match(/\(/g) || []).length, cN = (s.match(/\)/g) || []).length;
+      if (oN > cN) s += ")".repeat(oN - cN);
 
       let js = s
-        .replace(/×/g, "*")
-        .replace(/÷/g, "/")
-        .replace(/−/g, "-")
-        .replace(/π/g, `(${Math.PI})`)
-        .replace(/\bAns\b/g, `(${lastAns})`)
-        .replace(/(\d+(?:\.\d+)?)%/g, "($1/100)")
-        .replace(/\^/g, "**")
-        .replace(/∛\(/g, "Math.cbrt(")
-        .replace(/√\(/g, "Math.sqrt(")
-        .replace(/abs\(/g, "Math.abs(")
-        .replace(/logb\(/g, "_logb(")
-        .replace(/\blog\(/g, "Math.log10(")
-        .replace(/ln\(/g, "Math.log(")
-        .replace(/exp\(/g, "Math.exp(")
-        .replace(/\basin\(/g, "___ASIN___")
-        .replace(/\bacos\(/g, "___ACOS___")
-        .replace(/\batan\(/g, "___ATAN___")
-        .replace(/\bsin\(/g, "_sin(")
-        .replace(/\bcos\(/g, "_cos(")
-        .replace(/\btan\(/g, "_tan(")
-        .replace(/___ASIN___/g, "_asin(")
-        .replace(/___ACOS___/g, "_acos(")
-        .replace(/___ATAN___/g, "_atan(");
+        .replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-")
+        .replace(/π/g, `(${Math.PI})`).replace(/\bAns\b/g, `(${ans})`)
+        .replace(/(\d+(?:\.\d+)?)%/g, "($1/100)").replace(/\^/g, "**")
+        .replace(/∛\(/g, "Math.cbrt(").replace(/√\(/g, "Math.sqrt(").replace(/abs\(/g, "Math.abs(")
+        .replace(/logb\(/g, "_logb(").replace(/\blog\(/g, "Math.log10(").replace(/ln\(/g, "Math.log(").replace(/exp\(/g, "Math.exp(")
+        .replace(/\basin\(/g, "___ASIN___").replace(/\bacos\(/g, "___ACOS___").replace(/\batan\(/g, "___ATAN___")
+        .replace(/\bsin\(/g, "_sin(").replace(/\bcos\(/g, "_cos(").replace(/\btan\(/g, "_tan(")
+        .replace(/___ASIN___/g, "_asin(").replace(/___ACOS___/g, "_acos(").replace(/___ATAN___/g, "_atan(");
 
-      js = js.replace(/(\d+(?:\.\d+)?|\([^()]+\))!/g, (_, target) => `factorial(${target})`);
+      js = js.replace(/(\d+(?:\.\d+)?|\([^()]+\))!/g, (_, t) => `fact(${t})`);
+      js = js.replace(/(\d)(\(|[A-FM]|Math\.|_?asin|_?acos|_?atan|_?sin|_?cos|_?tan|fact)/g, "$1*$2");
+      js = js.replace(/\)(\d|\(|[A-FM]|Math\.|_?asin|_?acos|_?atan|_?sin|_?cos|_?tan)/g, ")*$1");
 
-      // Implicit multiplication e.g. 2π or 2(3) or 2X
-      js = js.replace(/(\d)(\(|[A-FXYM]|Math\.|_?asin|_?acos|_?atan|_?sin|_?cos|_?tan|factorial)/g, "$1*$2");
-      js = js.replace(/\)(\d|\(|[A-FXYM]|Math\.|_?asin|_?acos|_?atan|_?sin|_?cos|_?tan)/g, ")*$1");
-
-      const localVars = Object.assign({}, vars);
-      if (customX !== null) { localVars.X = customX; }
-
-      const fn = new Function(
-        "factorial", "nCr", "nPr", "_logb", "_sin", "_cos", "_tan", "_asin", "_acos", "_atan", "e", "A", "B", "C", "D", "E", "F", "X", "Y", "M", "x",
-        `"use strict"; return (${js});`
-      );
-
-      return fn(
-        factorial, nCr, nPr, (b, v) => Math.log(v) / Math.log(b),
-        (x) => Math.sin(toRad(x)),
-        (x) => Math.cos(toRad(x)),
-        (x) => Math.tan(toRad(x)),
-        (x) => fromRad(Math.asin(x)),
-        (x) => fromRad(Math.acos(x)),
-        (x) => fromRad(Math.atan(x)),
-        Math.E,
-        localVars.A, localVars.B, localVars.C, localVars.D, localVars.E, localVars.F, localVars.X, localVars.Y, localVars.M, customX !== null ? customX : localVars.X
-      );
+      const xv = cx !== null ? cx : 0;
+      const fn = new Function("fact", "nCr", "nPr", "_logb", "_sin", "_cos", "_tan", "_asin", "_acos", "_atan", "e", "A", "B", "C", "D", "E", "F", "M", "x", `"use strict"; return (${js});`);
+      return fn(fact, nCr, nPr, (b, v) => Math.log(v) / Math.log(b), x => Math.sin(toR(x)), x => Math.cos(toR(x)), x => Math.tan(toR(x)), x => fmR(Math.asin(x)), x => fmR(Math.acos(x)), x => fmR(Math.atan(x)), Math.E, vars.A, vars.B, vars.C, vars.D, vars.E, vars.F, mem, xv);
     }
 
-    function formatNum(num) {
-      if (typeof num !== "number" || !isFinite(num)) return "Math Error";
-      if (Math.abs(num) < 1e-13) return "0";
-      return Number.isInteger(num) ? String(num) : String(Number(num.toPrecision(12)));
+    function fmt(n) {
+      if (typeof n !== "number" || !isFinite(n)) return "Math Error";
+      if (Math.abs(n) < 1e-13) return "0";
+      return Number.isInteger(n) ? String(n) : String(Number(n.toPrecision(12)));
     }
 
     function evaluateMain() {
-      feedback();
-      if (!rawExpr.trim()) return;
+      tick();
+      if (!raw.trim()) return;
       try {
-        const val = evaluateExpression(rawExpr);
-        const formatted = formatNum(val);
-        document.getElementById("resultVal").textContent = formatted;
-        if (formatted !== "Math Error") {
-          lastAns = Number(formatted);
-          calcSteps = [
-            `1. الصيغة المدخلة: ${rawExpr}`,
-            `2. الإعدادات النشطة: الزوايا (${settings.angle}) • الذاكرة M (${formatNum(memValue)})`,
-            `3. النتيجة النهائية: ${formatted}`
-          ];
-          document.getElementById("stepsDrawer").innerHTML = calcSteps.join("<br>");
-          saveHistory(rawExpr, formatted);
+        const f = fmt(evalMath(raw));
+        document.getElementById("lcdAns").textContent = f;
+        if (f !== "Math Error") {
+          ans = Number(f);
+          hist.unshift({ q: raw, a: f });
+          hist = hist.slice(0, 25);
+          localStorage.setItem("slh2_hist", JSON.stringify(hist));
         }
-      } catch (err) {
-        document.getElementById("resultVal").textContent = "Syntax Error";
-      }
-    }
-
-    function insertSigmaTemplate() {
-      feedback();
-      const tpl = "Σ(x^2,1,5)"; rawExpr = rawExpr.slice(0, cursorPos) + tpl + rawExpr.slice(cursorPos); cursorPos += 2;
-      document.getElementById("activeHint").textContent = "أُدرج المجموع Σ(الدالة بدلالة X, البداية, النهاية)";
-      renderNaturalDisplay();
-    }
-
-    function toggleSteps() {
-      feedback();
-      const drawer = document.getElementById("stepsDrawer");
-      if (!calcSteps.length) {
-        drawer.innerHTML = "أجرِ عملية حسابية أولاً لعرض خطوات الحل.";
-      }
-      drawer.classList.toggle("open");
-    }
-
-    function copyResult() {
-      feedback();
-      const txt = document.getElementById("resultVal").textContent;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(txt).catch(() => {});
-      }
-      document.getElementById("activeHint").textContent = `تم نسخ: ${txt}`;
-    }
-
-    function updateMemBadge() {
-      const el = document.getElementById("indMem");
-      el.textContent = `M: ${formatNum(memValue)}`;
-      el.classList.toggle("mem-on", memValue !== 0);
-      vars.M = memValue;
-      localStorage.setItem("calcslh_mem", String(memValue));
-    }
-
-    function memoryAction(type) {
-      feedback();
-      const cur = Number(document.getElementById("resultVal").textContent) || 0;
-      if (type === "M+") {
-        if (shiftMode) memValue -= cur;
-        else memValue += cur;
-        shiftMode = false;
-        updateModeUI("");
-        updateMemBadge();
-        document.getElementById("activeHint").textContent = `الذاكرة M = ${formatNum(memValue)}`;
-      } else if (type === "MR") {
-        if (shiftMode) {
-          memValue = 0;
-          shiftMode = false;
-          updateModeUI("");
-          updateMemBadge();
-          document.getElementById("activeHint").textContent = "تم تصفير الذاكرة M";
-        } else {
-          rawExpr += "M";
-          renderNaturalDisplay();
-        }
-      }
-    }
-
-    function saveHistory(q, a) {
-      historyList.unshift({ q, a, t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
-      historyList = historyList.slice(0, 30);
-      localStorage.setItem("calcslh_history", JSON.stringify(historyList));
-    }
-        // Pages & Tools
-    function openPage(id) {
-      feedback();
-      document.getElementById(id).classList.add("open");
-    }
-
-    function closePage(id) {
-      feedback();
-      document.getElementById(id).classList.remove("open");
-    }
-
-    function openTool(tool) {
-      feedback();
-      const titleEl = document.getElementById("toolPageTitle");
-      const bodyEl = document.getElementById("toolPageBody");
-      openPage("toolsPage");
-
-      if (tool === "history") {
-        titleEl.textContent = "History — سجل العمليات المحفوظة";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <div class="field-row" style="justify-content:space-between;">
-              <span>اضغط على أي عملية لإدراجها في الشاشة</span>
-              <button class="close-btn" onclick="clearAllHistory()">مسح السجل</button>
-            </div>
-            <div id="histContainer">
-              ${historyList.length ? historyList.map(h => `
-                <div class="hist-entry" onclick="useHistoryItem('${h.q.replace(/'/g, "\\'")}')">
-                  <span>${h.q} = <b style="color:var(--gold-bright)">${h.a}</b></span>
-                  <small style="color:var(--text-muted)">${h.t}</small>
-                </div>`).join("") : "<p>لا توجد عمليات مسجلة بعد.</p>"}
-            </div>
-          </div>`;
-      } else if (tool === "memory") {
-        titleEl.textContent = "Memory — إدارة الذاكرة والمتغيرات";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>الذاكرة الرئيسية (M)</h4>
-            <p>القيمة الحالية: <b style="color:var(--gold-bright)">${formatNum(memValue)}</b></p>
-            <div class="field-row">
-              <button class="action-btn" onclick="memValue = Number(document.getElementById('resultVal').textContent)||0; updateMemBadge(); openTool('memory');">حفظ الناتج الحالي (MS)</button>
-              <button class="action-btn" onclick="memValue = 0; updateMemBadge(); openTool('memory');">مسح (MC)</button>
-            </div>
-          </div>
-          <div class="card-box">
-            <h4>تخزين قيم في المتغيرات (A, B, C, X, Y)</h4>
-            <div class="field-row">
-              <select class="sci-select" id="varName"><option>A</option><option>B</option><option>C</option><option>X</option><option>Y</option></select>
-              <input class="sci-input" id="varVal" type="number" placeholder="أدخل القيمة" />
-              <button class="action-btn" onclick="storeVar()">حفظ</button>
-            </div>
-            <div class="out-box">A=${vars.A} | B=${vars.B} | C=${vars.C} | X=${vars.X} | Y=${vars.Y}</div>
-          </div>`;
-      } else if (tool === "solve") {
-        titleEl.textContent = "SOLVE — حل المعادلات الجبرية";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>حل معادلة تربيعية (ax² + bx + c = 0)</h4>
-            <div class="field-row">
-              <input class="sci-input" id="qa" type="number" value="1" placeholder="a" />
-              <input class="sci-input" id="qb" type="number" value="-5" placeholder="b" />
-              <input class="sci-input" id="qc" type="number" value="6" placeholder="c" />
-              <button class="action-btn" onclick="solveQuadratic()">حل</button>
-            </div>
-            <div class="out-box" id="quadOut">أدخل المعاملات واضغط حل.</div>
-          </div>
-          <div class="card-box">
-            <h4>حل معادلة عامة f(X) = 0 (طريقة نيوتن)</h4>
-            <div class="field-row">
-              <input class="sci-input" id="eqExpr" value="X^3 - 2*X - 5" placeholder="مثال: X^2 - 9" />
-              <input class="sci-input" id="eqGuess" type="number" value="2" placeholder="تخمين" />
-              <button class="action-btn" onclick="solveNewton()">إيجاد الجذر</button>
-            </div>
-            <div class="out-box" id="newtonOut">اكتب المعادلة بدلالة X.</div>
-          </div>`;
-      } else if (tool === "calc") {
-        titleEl.textContent = "CALC — تقييم الدوال والتعويض";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>احسب قيمة تعبير رياضي عند X معينة</h4>
-            <div class="field-row">
-              <input class="sci-input" id="calcFx" value="3*X^2 + 2*X - 7" placeholder="الدالة f(X)" />
-            </div>
-            <div class="field-row">
-              <input class="sci-input" id="calcXVal" type="number" value="4" placeholder="قيمة X" />
-              <button class="action-btn" onclick="runCalcEval()">احسب f(X)</button>
-            </div>
-            <div class="out-box" id="calcOut">النتيجة ستظهر هنا.</div>
-          </div>`;
-      } else if (tool === "matrix") {
-        titleEl.textContent = "MATRIX — عمليات المصفوفات (2×2)";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>المصفوفة A والمصفوفة B</h4>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div>
-                <small>Matrix A</small>
-                <div class="matrix-grid-inputs">
-                  <input class="sci-input" id="a11" type="number" value="2" />
-                  <input class="sci-input" id="a12" type="number" value="1" />
-                  <input class="sci-input" id="a21" type="number" value="5" />
-                  <input class="sci-input" id="a22" type="number" value="3" />
-                </div>
-              </div>
-              <div>
-                <small>Matrix B</small>
-                <div class="matrix-grid-inputs">
-                  <input class="sci-input" id="b11" type="number" value="1" />
-                  <input class="sci-input" id="b12" type="number" value="4" />
-                  <input class="sci-input" id="b21" type="number" value="2" />
-                  <input class="sci-input" id="b22" type="number" value="0" />
-                </div>
-              </div>
-            </div>
-            <div class="field-row">
-              <button class="action-btn" onclick="calcMatrix('add')">A + B</button>
-              <button class="action-btn" onclick="calcMatrix('mul')">A × B</button>
-              <button class="action-btn" onclick="calcMatrix('det')">det(A)</button>
-              <button class="action-btn" onclick="calcMatrix('inv')">A⁻¹</button>
-            </div>
-            <div class="out-box" id="matOut">اختر العملية المطلوبة.</div>
-          </div>`;
-      } else if (tool === "vector") {
-        titleEl.textContent = "VECTOR — عمليات المتجهات ثلاثية الأبعاد";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>المتجه U(x,y,z) والمتجه V(x,y,z)</h4>
-            <div class="field-row">
-              <input class="sci-input" id="ux" type="number" value="3" placeholder="Ux" />
-              <input class="sci-input" id="uy" type="number" value="4" placeholder="Uy" />
-              <input class="sci-input" id="uz" type="number" value="0" placeholder="Uz" />
-            </div>
-            <div class="field-row">
-              <input class="sci-input" id="vx" type="number" value="1" placeholder="Vx" />
-              <input class="sci-input" id="vy" type="number" value="2" placeholder="Vy" />
-              <input class="sci-input" id="vz" type="number" value="5" placeholder="Vz" />
-            </div>
-            <div class="field-row">
-              <button class="action-btn" onclick="calcVector()">تحليل المتجهات</button>
-            </div>
-            <div class="out-box" id="vecOut">يحسب الطول، الضرب القياسي Dot، والضرب الاتجاهي Cross.</div>
-          </div>`;
-      } else if (tool === "stat") {
-        titleEl.textContent = "STAT — التحليل الإحصائي والاحتمالات";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>أدخل البيانات مفصولة بفاصلة</h4>
-            <div class="field-row">
-              <input class="sci-input" id="statData" value="12, 15, 18, 22, 25, 30" />
-              <button class="action-btn" onclick="calcStat()">تحليل</button>
-            </div>
-            <div class="out-box" id="statOut">المتوسط، الوسيط، الانحراف المعياري، والتباين.</div>
-          </div>`;
-      } else if (tool === "conv") {
-        titleEl.textContent = "CONV — محول الوحدات الهندسية والفيزيائية";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>اختر نوع التحويل</h4>
-            <div class="field-row">
-              <select class="sci-select" id="convType" onchange="runConv()">
-                <option value="km_mi">كيلومتر (km) ← ميل (mi)</option>
-                <option value="mi_km">ميل (mi) ← كيلومتر (km)</option>
-                <option value="c_f">درجة مئوية (°C) ← فهرنهايت (°F)</option>
-                <option value="f_c">فهرنهايت (°F) ← درجة مئوية (°C)</option>
-                <option value="kg_lb">كيلوغرام (kg) ← باوند (lb)</option>
-                <option value="mb_gb">ميغابايت (MB) ← غيغابايت (GB)</option>
-                <option value="deg_rad">درجة (DEG) ← راديان (RAD)</option>
-              </select>
-            </div>
-            <div class="field-row">
-              <input class="sci-input" id="convVal" type="number" value="100" oninput="runConv()" />
-              <button class="action-btn" onclick="insertConvToScreen()">إدراج في الشاشة</button>
-            </div>
-            <div class="out-box" id="convOut">62.1371192237</div>
-          </div>`;
-        runConv();
-      } else if (tool === "const") {
-        titleEl.textContent = "CONST — الثوابت العلمية والرياضية";
-        const constants = [
-          { sym: "c", name: "سرعة الضوء في الفراغ (m/s)", val: "299792458" },
-          { sym: "g", name: "تسارع الجاذبية الأرضية (m/s²)", val: "9.80665" },
-          { sym: "G", name: "ثابت الجذب العام", val: "6.6743e-11" },
-          { sym: "h", name: "ثابت بلانك (J·s)", val: "6.62607015e-34" },
-          { sym: "NA", name: "عدد أفوجادرو (mol⁻¹)", val: "6.02214076e23" },
-          { sym: "R", name: "ثابت الغازات العام (J/mol·K)", val: "8.314462618" },
-          { sym: "φ", name: "النسبة الذهبية (Golden Ratio)", val: "1.61803398875" }
-        ];
-        bodyEl.innerHTML = `<div class="card-box">
-          ${constants.map(c => `
-            <div class="hist-entry" onclick="insertConst('${c.val}')">
-              <span><b style="color:var(--gold-bright)">${c.sym}</b> — ${c.name}</span>
-              <span style="color:var(--teal-bright)">${c.val}</span>
-            </div>`).join("")}
-        </div>`;
-      } else if (tool === "complex") {
-        titleEl.textContent = "COMPLEX — الأعداد المركبة (a + bi)";
-        bodyEl.innerHTML = `
-          <div class="card-box">
-            <h4>العدد المركب Z₁ = a + bi والعدد Z₂ = c + di</h4>
-            <div class="field-row">
-              <input class="sci-input" id="z1a" type="number" value="3" placeholder="a" />
-              <input class="sci-input" id="z1b" type="number" value="4" placeholder="b" />
-                </div>
-            <div class="field-row">
-              <input class="sci-input" id="z2c" type="number" value="1" placeholder="c" />
-              <input class="sci-input" id="z2d" type="number" value="-2" placeholder="d" />
-            </div>
-            <div class="field-row">
-              <button class="action-btn" onclick="calcComplex()">حساب Z₁+Z₂ و Z₁×Z₂ و |Z₁|</button>
-            </div>
-            <div class="out-box" id="compOut">النتائج المركبة والقطبية ستظهر هنا.</div>
-          </div>`;
-      }
-    }
-
-    // Tool Logic Implementations
-    function useHistoryItem(q) {
-      rawExpr = q; cursorPos = rawExpr.length;
-      closePage("toolsPage");
-      renderNaturalDisplay();
-    }
-
-    function clearAllHistory() {
-      historyList = [];
-      localStorage.removeItem("calcslh_history");
-      openTool("history");
-    }
-
-    function storeVar() {
-      const k = document.getElementById("varName").value;
-      const v = Number(document.getElementById("varVal").value) || 0;
-      vars[k] = v;
-      openTool("memory");
-    }
-
-    function solveQuadratic() {
-      const a = Number(document.getElementById("qa").value);
-      const b = Number(document.getElementById("qb").value);
-      const c = Number(document.getElementById("qc").value);
-      const out = document.getElementById("quadOut");
-      if (a === 0) {
-        out.textContent = b === 0 ? "لا يوجد حل" : `X = ${formatNum(-c / b)}`;
-        return;
-      }
-      const d = b * b - 4 * a * c;
-      if (d > 0) {
-        const x1 = (-b + Math.sqrt(d)) / (2 * a);
-        const x2 = (-b - Math.sqrt(d)) / (2 * a);
-        out.textContent = `Δ = ${formatNum(d)}\nX₁ = ${formatNum(x1)}\nX₂ = ${formatNum(x2)}`;
-      } else if (d === 0) {
-        out.textContent = `Δ = 0 (جذر مكرر)\nX = ${formatNum(-b / (2 * a))}`;
-      } else {
-        const re = formatNum(-b / (2 * a));
-        const im = formatNum(Math.sqrt(-d) / (2 * a));
-        out.textContent = `Δ = ${formatNum(d)} (جذور مركبة)\nX₁ = ${re} + ${im}i\nX₂ = ${re} - ${im}i`;
-      }
-    }
-
-    function solveNewton() {
-      const expr = document.getElementById("eqExpr").value;
-      let x = Number(document.getElementById("eqGuess").value) || 1;
-      const out = document.getElementById("newtonOut");
-      try {
-        const h = 1e-6;
-        for (let i = 0; i < 60; i++) {
-          const fx = evaluateExpression(expr, x);
-          const dfx = (evaluateExpression(expr, x + h) - evaluateExpression(expr, x - h)) / (2 * h);
-          if (Math.abs(dfx) < 1e-12) break;
-          const nextX = x - fx / dfx;
-          if (Math.abs(nextX - x) < 1e-10) {
-            x = nextX;
-            break;
-          }
-          x = nextX;
-        }
-        out.textContent = `الجذر التقريبي: X = ${formatNum(x)}\nالتحقق f(X) = ${formatNum(evaluateExpression(expr, x))}`;
       } catch (e) {
-        out.textContent = "تأكد من كتابة المعادلة بصيغة صحيحة بدلالة X.";
+        document.getElementById("lcdAns").textContent = "Syntax Error";
       }
     }
 
-    function runCalcEval() {
-      const fx = document.getElementById("calcFx").value;
-      const xv = Number(document.getElementById("calcXVal").value) || 0;
-      try {
-        const res = evaluateExpression(fx, xv);
-        document.getElementById("calcOut").textContent = `f(${xv}) = ${formatNum(res)}`;
-      } catch (e) {
-        document.getElementById("calcOut").textContent = "خطأ في صيغة الدالة.";
+    function memOp(op) {
+      tick();
+      const cur = Number(document.getElementById("lcdAns").textContent) || 0;
+      if (op === "add") { mem += cur; localStorage.setItem("slh2_mem", String(mem)); document.getElementById("iMem").classList.toggle("on", mem !== 0); }
+      else if (op === "sub") { mem -= cur; localStorage.setItem("slh2_mem", String(mem)); document.getElementById("iMem").classList.toggle("on", mem !== 0); }
+      else if (op === "recall") insertTextAtCursor("M");
+    }
+
+    function openModal(id) { tick(); document.getElementById(id).classList.add("open"); }
+    function closeModal(id) { tick(); document.getElementById(id).classList.remove("open"); }
+
+    function openTool(t) {
+      tick();
+      const title = document.getElementById("ovTitle"), body = document.getElementById("ovBody");
+      openModal("toolOv");
+      if (t === "history") {
+        title.textContent = "History — سجل العمليات";
+        body.innerHTML = `<div class="box"><div class="in-row" style="justify-content:space-between"><span>اضغط لإدراج العملية</span><button class="ov-x" onclick="hist=[];localStorage.removeItem('slh2_hist');openTool('history')">مسح</button></div>${hist.length ? hist.map(h => `<div class="h-item" onclick="raw='${h.q.replace(/'/g,"\\'")}';pos=raw.length;closeModal('toolOv');render()"><span>${h.q}</span><b style="color:var(--sub-gold)">= ${h.a}</b></div>`).join("") : "<p>لا يوجد سجل بعد.</p>"}</div>`;
+      } else if (t === "solve" || t === "calc") {
+        title.textContent = "SOLVE & CALC";
+        body.innerHTML = `<div class="box"><h4>معادلة تربيعية ax² + bx + c = 0</h4><div class="in-row"><input class="inp" id="qa" type="number" value="1"/><input class="inp" id="qb" type="number" value="-5"/><input class="inp" id="qc" type="number" value="6"/><button class="act" onclick="solveQ()">حل</button></div><div class="out" id="qOut">أدخل a, b, c</div></div><div class="box"><h4>تقييم f(x) عند x</h4><div class="in-row"><input class="inp" id="fx" value="x^2+3*x+2"/><input class="inp" id="xv" type="number" value="2"/><button class="act" onclick="evalF()">احسب</button></div><div class="out" id="fOut">النتيجة</div></div>`;
+      } else if (t === "matrix") {
+        title.textContent = "MATRIX (2×2)";
+        body.innerHTML = `<div class="box"><div class="in-row"><input class="inp" id="m11" type="number" value="2"/><input class="inp" id="m12" type="number" value="1"/></div><div class="in-row"><input class="inp" id="m21" type="number" value="5"/><input class="inp" id="m22" type="number" value="3"/></div><div class="in-row"><button class="act" onclick="mCalc('det')">det(A)</button><button class="act" onclick="mCalc('inv')">A⁻¹</button></div><div class="out" id="mOut">النتيجة</div></div>`;
+      } else if (t === "stat") {
+        title.textContent = "STAT — الإحصاء";
+        body.innerHTML = `<div class="box"><div class="in-row"><input class="inp" id="stI" value="10, 20, 30, 40"/><button class="act" onclick="stC()">تحليل</button></div><div class="out" id="stO">المتوسط والانحراف</div></div>`;
+      } else if (t === "conv") {
+        title.textContent = "CONV — تحويل الوحدات";
+        body.innerHTML = `<div class="box"><div class="in-row"><select class="sel" id="cvT" onchange="cvC()"><option value="c_f">°C → °F</option><option value="km_mi">km → mi</option><option value="deg_rad">DEG → RAD</option></select><input class="inp" id="cvV" type="number" value="100" oninput="cvC()"/></div><div class="out" id="cvO">212</div></div>`; cvC();
+      } else if (t === "const") {
+        title.textContent = "CONST — الثوابت العلمية";
+        const cs = [["c","299792458"],["g","9.80665"],["G","6.6743e-11"],["h","6.62607015e-34"],["φ","1.61803398875"]];
+        body.innerHTML = `<div class="box">${cs.map(([k,v])=>`<div class="h-item" onclick="insertTextAtCursor('${v}');closeModal('toolOv')"><b>${k}</b><span>${v}</span></div>`).join("")}</div>`;
       }
     }
 
-    function calcMatrix(op) {
-      const a11 = Number(document.getElementById("a11").value) || 0;
-      const a12 = Number(document.getElementById("a12").value) || 0;
-      const a21 = Number(document.getElementById("a21").value) || 0;
-      const a22 = Number(document.getElementById("a22").value) || 0;
-      const b11 = Number(document.getElementById("b11").value) || 0;
-      const b12 = Number(document.getElementById("b12").value) || 0;
-      const b21 = Number(document.getElementById("b21").value) || 0;
-      const b22 = Number(document.getElementById("b22").value) || 0;
-      const out = document.getElementById("matOut");
-
-      if (op === "add") {
-        out.textContent = `[ ${formatNum(a11 + b11)}   ${formatNum(a12 + b12)} ]\n[ ${formatNum(a21 + b21)}   ${formatNum(a22 + b22)} ]`;
-      } else if (op === "mul") {
-        out.textContent = `[ ${formatNum(a11 * b11 + a12 * b21)}   ${formatNum(a11 * b12 + a12 * b22)} ]\n[ ${formatNum(a21 * b11 + a22 * b21)}   ${formatNum(a21 * b12 + a22 * b22)} ]`;
-      } else if (op === "det") {
-        out.textContent = `det(A) = ${formatNum(a11 * a22 - a12 * a21)}`;
-      } else if (op === "inv") {
-        const det = a11 * a22 - a12 * a21;
-        if (det === 0) out.textContent = "المصفوفة A ليس لها معكوس (det = 0)";
-        else out.textContent = `[ ${formatNum(a22 / det)}   ${formatNum(-a12 / det)} ]\n[ ${formatNum(-a21 / det)}   ${formatNum(a11 / det)} ]`;
-      }
+    function solveQ() {
+      const a = +document.getElementById("qa").value, b = +document.getElementById("qb").value, c = +document.getElementById("qc").value, d = b*b - 4*a*c;
+      document.getElementById("qOut").textContent = d >= 0 ? `x1 = ${fmt((-b+Math.sqrt(d))/(2*a))}\nx2 = ${fmt((-b-Math.sqrt(d))/(2*a))}` : `Δ = ${fmt(d)} (مركب)`;
+    }
+    function evalF() { try { document.getElementById("fOut").textContent = fmt(evalMath(document.getElementById("fx").value, +document.getElementById("xv").value)); } catch (e) { document.getElementById("fOut").textContent = "خطأ"; } }
+    function mCalc(op) {
+      const a = +document.getElementById("m11").value, b = +document.getElementById("m12").value, c = +document.getElementById("m21").value, d = +document.getElementById("m22").value, det = a*d - b*c;
+      document.getElementById("mOut").textContent = op === "det" ? `det = ${fmt(det)}` : det === 0 ? "لا يوجد معكوس" : `[ ${fmt(d/det)}  ${fmt(-b/det)} ]\n[ ${fmt(-c/det)}  ${fmt(a/det)} ]`;
+    }
+    function stC() {
+      const arr = document.getElementById("stI").value.split(",").map(Number).filter(x => !isNaN(x));
+      if (!arr.length) return;
+      const m = arr.reduce((x,y)=>x+y,0)/arr.length;
+      document.getElementById("stO").textContent = `n=${arr.length} | Mean=${fmt(m)} | σ=${fmt(Math.sqrt(arr.reduce((s,x)=>s+(x-m)**2,0)/arr.length))}`;
+    }
+    function cvC() {
+      const t = document.getElementById("cvT").value, v = +document.getElementById("cvV").value || 0;
+      document.getElementById("cvO").textContent = fmt(t === "c_f" ? v*1.8+32 : t === "km_mi" ? v*0.621371192 : (v*Math.PI)/180);
     }
 
-    function calcVector() {
-      const ux = Number(document.getElementById("ux").value) || 0;
-      const uy = Number(document.getElementById("uy").value) || 0;
-      const uz = Number(document.getElementById("uz").value) || 0;
-      const vx = Number(document.getElementById("vx").value) || 0;
-      const vy = Number(document.getElementById("vy").value) || 0;
-      const vz = Number(document.getElementById("vz").value) || 0;
-
-      const magU = Math.hypot(ux, uy, uz);
-      const magV = Math.hypot(vx, vy, vz);
-      const dot = ux * vx + uy * vy + uz * vz;
-      const cx = uy * vz - uz * vy;
-      const cy = uz * vx - ux * vz;
-      const cz = ux * vy - uy * vx;
-
-      document.getElementById("vecOut").textContent =
-        `|U| = ${formatNum(magU)} | |V| = ${formatNum(magV)}\nU · V = ${formatNum(dot)}\nU × V = (${formatNum(cx)}, ${formatNum(cy)}, ${formatNum(cz)})`;
-    }
-
-    function calcStat() {
-      const nums = document.getElementById("statData").value
-        .split(",")
-        .map(s => Number(s.trim()))
-        .filter(n => !isNaN(n));
-      const out = document.getElementById("statOut");
-      if (!nums.length) {
-        out.textContent = "أدخل أرقاماً صحيحة مفصولة بفاصلة.";
-        return;
-      }
-      const n = nums.length;
-      const sum = nums.reduce((a, b) => a + b, 0);
-      const mean = sum / n;
-      const sorted = [...nums].sort((a, b) => a - b);
-      const median = n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
-      const variance = nums.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / n;
-      const std = Math.sqrt(variance);
-
-      out.textContent = `العدد n = ${n} | المجموع Σx = ${formatNum(sum)}\nالمتوسط Mean = ${formatNum(mean)}\nالوسيط Median = ${formatNum(median)}\nالانحراف المعياري σ = ${formatNum(std)}`;
-    }
-
-    let lastConvResult = 0;
-    function runConv() {
-      const type = document.getElementById("convType").value;
-      const val = Number(document.getElementById("convVal").value) || 0;
-      let res = val;
-      if (type === "km_mi") res = val * 0.621371192;
-      else if (type === "mi_km") res = val / 0.621371192;
-      else if (type === "c_f") res = val * 1.8 + 32;
-      else if (type === "f_c") res = (val - 32) / 1.8;
-      else if (type === "kg_lb") res = val * 2.20462262;
-      else if (type === "mb_gb") res = val / 1024;
-      else if (type === "deg_rad") res = (val * Math.PI) / 180;
-      lastConvResult = res;
-      document.getElementById("convOut").textContent = formatNum(res);
-    }
-
-    function insertConvToScreen() {
-      const ins = formatNum(lastConvResult); rawExpr = rawExpr.slice(0, cursorPos) + ins + rawExpr.slice(cursorPos); cursorPos += ins.length;
-      closePage("toolsPage");
-      renderNaturalDisplay();
-    }
-
-    function insertConst(val) {
-      rawExpr = rawExpr.slice(0, cursorPos) + val + rawExpr.slice(cursorPos); cursorPos += val.length;
-      closePage("toolsPage");
-      renderNaturalDisplay();
-    }
-
-    function calcComplex() {
-      const a = Number(document.getElementById("z1a").value) || 0;
-      const b = Number(document.getElementById("z1b").value) || 0;
-      const c = Number(document.getElementById("z2c").value) || 0;
-      const d = Number(document.getElementById("z2d").value) || 0;
-
-      const addR = a + c, addI = b + d;
-      const mulR = a * c - b * d, mulI = a * d + b * c;
-      const mag = Math.hypot(a, b);
-      const ang = fromRad(Math.atan2(b, a));
-
-      document.getElementById("compOut").textContent =
-        `Z₁ + Z₂ = ${formatNum(addR)} ${addI >= 0 ? "+" : "-"} ${formatNum(Math.abs(addI))}i\n` +
-        `Z₁ × Z₂ = ${formatNum(mulR)} ${mulI >= 0 ? "+" : "-"} ${formatNum(Math.abs(mulI))}i\n` +
-        `|Z₁| = ${formatNum(mag)} ∠ ${formatNum(ang)}°`;
-    }
-
-    initSettingsUI();
+    init();
   </script>
 </body>
 </html>
